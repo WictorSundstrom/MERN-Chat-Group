@@ -71,7 +71,7 @@ class Login extends Component {
                     <input
                         id="formSubmit"
                         type="submit"
-                        value="Signup"
+                        value="Login"
                         onSubmit={e => {e.preventDefault()
                             }
                         }
