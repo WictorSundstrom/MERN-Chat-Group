@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Home from './Home'
 import Login from './Login'
 import Signup from './Signup'
+import Chat from './Chat'
 import { Nav } from './Nav'
 
 
@@ -30,6 +31,7 @@ class App extends React.Component {
                     <Route exact path="/" component={ Home } />
                     <Route exact path="/login" component={ Login } />
                     <Route exact path="/signup" component={ Signup } />
+                    <Route exact path="/chat" component={ Chat } /> {/*for testing */}
                 </Fragment>
             </Router>
         )
