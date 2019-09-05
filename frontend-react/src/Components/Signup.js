@@ -36,7 +36,7 @@ class Signup extends Component {
 
     render() {
         return(
-            <div className="signup-form">
+            <div className='signup-form bg-light-green dib br3 pa3 ma2 grow bw2 shadow-5' style={{width: 770}}>
                 <form
                     onSubmit={e => this.handleFormSubmit(e)}>
 
