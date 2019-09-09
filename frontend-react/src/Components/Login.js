@@ -9,7 +9,7 @@ class Login extends Component {
         user : '',
         pass : '',
     }
-        
+
     handleFormSubmit(e) {
         e.preventDefault()
 
@@ -32,15 +32,13 @@ class Login extends Component {
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
     }
-    
+
 
     render() {
         return(
-            
-            <div>
-                <div className="login-form">
-                    <form
-                        onSubmit={e => this.handleFormSubmit(e)}>
+            <div className='login-form bg-light-green dib br3 pa3 ma2 grow bw2 shadow-5' style={{width: 770}}>
+                <form
+                    onSubmit={e => this.handleFormSubmit(e)}>
 
                         <label htmlFor="user">
                         <h2>Username</h2>
@@ -53,7 +51,7 @@ class Login extends Component {
                         />
 
                         </label>
-                    
+
                         <label htmlFor="pass">
                         <h2>Password</h2>
                         <input
@@ -70,18 +68,17 @@ class Login extends Component {
                             id="warningText"
                         />
 
-                        <input
-                            id="formSubmit"
-                            type="submit"
-                            value="Signup"
-                            onSubmit={e => {e.preventDefault()
-                                }
+                    <input
+                        id="formSubmit"
+                        type="submit"
+                        value="Login"
+                        onSubmit={e => {e.preventDefault()
                             }
                         >
                         </input>
                     </form>
             </div>
-                
+
             <div>
                 <Link to="/signup">Not Registered?</Link>
             </div>

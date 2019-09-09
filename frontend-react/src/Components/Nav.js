@@ -10,7 +10,7 @@ export const Nav = ({selectedCat, onSelect}) => {
         <Paper>
         <Tabs
             value={selectedCat}
-            onChange={(event, index) => 
+            onChange={(event, index) =>
             {onSelect(index)}}
             indicatorColor="primary"
             textColor="primary"

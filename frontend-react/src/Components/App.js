@@ -30,8 +30,8 @@ class App extends React.Component {
                    <Nav selectedCat={this.state.categorySelected} onSelect={this.onCategoryChange}/>
                     <Route exact path="/" component={ Home } />
                     <Route exact path="/login" component={ Login } />
-                    <Route exact path="/signup" component={ Signup } ></Route>
-                    <Route exact path="/chat" component={ Chat } />
+                    <Route exact path="/signup" component={ Signup } />
+                    <Route exact path="/chat" component={ Chat } /> {/*for testing */}
                 </Fragment>
             </Router>
         )
