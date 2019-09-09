@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { setToken } from './AuthHelper';
-
+import { Link } from 'react-router-dom'
 
 class Login extends Component {
 
@@ -36,49 +36,57 @@ class Login extends Component {
 
     render() {
         return(
-            <div className="login-form">
-                <form
-                    onSubmit={e => this.handleFormSubmit(e)}>
+            
+            <div>
+                <div className="login-form">
+                    <form
+                        onSubmit={e => this.handleFormSubmit(e)}>
 
-                    <label htmlFor="user">
-                    <h2>Username</h2>
-                    <input
-                        id="user"
-                        value={this.state.username}
-                        placeholder="Username"
-                        name="user"
-                        onChange={this.handleChange}
-                    />
+                        <label htmlFor="user">
+                        <h2>Username</h2>
+                        <input
+                            id="user"
+                            value={this.state.username}
+                            placeholder="Username"
+                            name="user"
+                            onChange={this.handleChange}
+                        />
 
-                    </label>
-                   
-                    <label htmlFor="pass">
-                    <h2>Password</h2>
-                    <input
-                        id="pass"
-                        type="password"
-                        value={this.state.password}
-                        placeholder="Password"
-                        name="pass"
-                        onChange={this.handleChange}
-                    />
-                    </label>
+                        </label>
+                    
+                        <label htmlFor="pass">
+                        <h2>Password</h2>
+                        <input
+                            id="pass"
+                            type="password"
+                            value={this.state.password}
+                            placeholder="Password"
+                            name="pass"
+                            onChange={this.handleChange}
+                        />
+                        </label>
 
-                    <label
-                        id="warningText"
-                    />
+                        <label
+                            id="warningText"
+                        />
 
-                    <input
-                        id="formSubmit"
-                        type="submit"
-                        value="Signup"
-                        onSubmit={e => {e.preventDefault()
+                        <input
+                            id="formSubmit"
+                            type="submit"
+                            value="Signup"
+                            onSubmit={e => {e.preventDefault()
+                                }
                             }
-                        }
-                    >
-                    </input>
-                </form>
+                        >
+                        </input>
+                    </form>
             </div>
+                
+            <div>
+                <Link to="/signup">Not Registered?</Link>
+            </div>
+        </div>
+
         )
     }
 }

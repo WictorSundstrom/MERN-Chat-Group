@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-
 import Home from './Home'
 import Login from './Login'
-import Signup from './Signup'
+import Signup from './Signup';
 import { Nav } from './Nav'
-
+import Chat from './Chat'
 
 
 class App extends React.Component {
@@ -22,6 +21,8 @@ class App extends React.Component {
         })
     }
 
+
+
     render () {
         return (
             <Router>
@@ -29,7 +30,8 @@ class App extends React.Component {
                    <Nav selectedCat={this.state.categorySelected} onSelect={this.onCategoryChange}/>
                     <Route exact path="/" component={ Home } />
                     <Route exact path="/login" component={ Login } />
-                    <Route exact path="/signup" component={ Signup } />
+                    <Route exact path="/signup" component={ Signup } ></Route>
+                    <Route exact path="/chat" component={ Chat } />
                 </Fragment>
             </Router>
         )
