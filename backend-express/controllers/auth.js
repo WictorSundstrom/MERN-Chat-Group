@@ -1,5 +1,6 @@
 const User = require('../models/user.model')
 const jwt = require('jsonwebtoken')
+const { validationResult } = require('express-validator')
 
 function createJWT(user) {
     return jwt.sign({ id: user.id }, process.env.JWT_DEV_ENV_SECRET, {
@@ -16,10 +17,15 @@ const verifyJWT = token =>
 })
 
 const signup = (req, res) => {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()) {
+        return res.status(422).json({errors: errors.array() })
+    }
 
     const user = new User()
     user.username = req.body.username
     user.password = req.body.password
+    user.status = "Offline"
     user.save(function (err, user) {
         if (err) {
             console.log(err)
@@ -42,15 +48,16 @@ const login = async (req, res) => {
     if (!matchingPasswords) {
         return res.status(400).send({ message: 'invalid combination' })
     }
-    const signedJWT = createJWT()
+    const signedJWT = createJWT(user)
+    User.updateOne({'username': req.body.username}, {$set: {'status':'Online'}}).exec()
     return res.status(201).send({ signedJWT })
 }
 
 const isAuthorized = async (req, res, next) => {
 
-    const bearer = req.headers.authorization
+    const token = req.headers.authorization
     
-    const token = bearer.split('Bearer ')[1].trim()
+    //const token = bearer.split('Bearer ')[1].trim()
     let payload
 
     try {
