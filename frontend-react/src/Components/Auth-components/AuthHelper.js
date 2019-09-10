@@ -1,9 +1,9 @@
 export const setToken = (token) => {
-    localStorage.setItem('sometokenname', token)
+    localStorage.setItem('rFfQfz9mAOiHZh6Iy830', token)
 }
 
 export const getToken = () => {
-    return localStorage.getItem('sometokenname')
+    return localStorage.getItem('rFfQfz9mAOiHZh6Iy830')
 }
 
 export const isLoggedIn = () => {
@@ -15,5 +15,5 @@ export const isLoggedIn = () => {
 }
 
 export const logout = () => {
-    localStorage.removeItem('sometokenname')
+    localStorage.removeItem('rFfQfz9mAOiHZh6Iy830')
 }
