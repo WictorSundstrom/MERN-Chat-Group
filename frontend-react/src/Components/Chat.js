@@ -7,8 +7,10 @@ import FriendsList from './Chat-components/FriendsList'
 
 class Chat extends React.Component {
 
+
     render(){
         return(
+            
             <div className="chat">
 
                 <FriendsList />
