@@ -13,31 +13,39 @@ const [userError, setUserError] = useState(false)
 const [userMsgError, setUserMsgError] = useState(false)
 const [passError, setPassError] = useState(false)
 const [passMsgError, setPassMsgError] = useState(false)
+const [submitted, setSubmitted] = useState(false)
+
 
 useEffect(() => {
-    if( user.length < 6 ) {
-        setUserMsgError(true)
-        console.log("userError " + userMsgError)
-    }
-    else{
-        setUserMsgError(false)
-        setUserError(false)
-        console.log("userError " + userMsgError)
-    }
+    if(submitted)
+    {   
+        if( user.length < 6 ) {
+            setUserMsgError(true)
+            console.log("userError " + userMsgError)
+        }
+        else{
+            setUserMsgError(false)
+            setUserError(false)
+            console.log("userError " + userMsgError)
+        }
 
-    if( pass.length < 6) {
-        setPassMsgError(true)
-        console.log("passError " + passMsgError)
+        if( pass.length < 6) {
+            setPassMsgError(true)
+            console.log("passError " + passMsgError)
+        }
+        else{
+            setPassMsgError(false)
+            setPassError(false)
+            console.log("passError " + passMsgError)
+        }
     }
-    else{
-        setPassMsgError(false)
-        setPassError(false)
-        console.log("passError " + passMsgError)
-    }
-}, [user.length, userMsgError, pass.length,passMsgError])
+}, [user.length, userMsgError, pass.length,passMsgError, submitted])
 
 const handleFormSubmit = (e) => {
     e.preventDefault()
+
+    setSubmitted(true)
+    
     if( user.length < 6 || pass.length  < 6) {
         if( user.length < 6 ){
             setUserError(true)
@@ -45,6 +53,7 @@ const handleFormSubmit = (e) => {
         if( pass.length < 6 ){
             setPassError(true)
         }
+        
     }
     else if(!userError && !passError)
     {  
@@ -68,6 +77,12 @@ const handleFormSubmit = (e) => {
 
 return(
     <div className='login-form'>
+     <div className="ui attached message">
+            <div className="header">
+                Welcome to our site!
+            </div>
+            <p>Fill out the form below to login</p>
+        </div>
         <Form onSubmit={e => handleFormSubmit(e)}>
             <Form.Input 
                 label="Username"
@@ -80,6 +95,7 @@ return(
             />
                    
             <Message
+                className="ui negative message"
                 error={!userMsgError}
                 header='Too short usernamer'
                 content='Username does not have atleast 6 letters'
@@ -95,6 +111,7 @@ return(
                     error={passError}
                 />
                 <Message
+                    className="ui negative message"
                     error={!passMsgError}
                     header='Too short password'
                     content='Password does not have atleast 6 letters'
@@ -109,7 +126,11 @@ return(
                 >Submit!
                 </Button>
             </Form>
-            <Link to="/signup">Not Registered?</Link>
+            <div className="ui bottom attached warning message">
+                <i className="icon help"></i>
+                Not Registered? <Link to="/signup">Register here!</Link>
+            </div>
+            
         </div>
         )
     }
