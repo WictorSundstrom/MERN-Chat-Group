@@ -25,3 +25,4 @@ yarn-error.log*
 backend-express/node_modules
 frontend-react/node_modules
 backend-express/.env
+frontend-react/semantic
