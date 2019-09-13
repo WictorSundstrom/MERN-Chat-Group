@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        rights: {
+            type: String,
+            require: true,
+        },
         status : {
             type: String,
             require: true
