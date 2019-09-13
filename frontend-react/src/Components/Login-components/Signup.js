@@ -34,9 +34,6 @@ const [passConfirmationError, setPassConfirmationError] = useState ({
 const handleFormSubmit = (e) => {
     e.preventDefault()
 
-
-    console.log(passConfirmationError.msg)
-
     axios({
         method: 'post',
         url: 'http://localhost:3001/signup',
@@ -59,8 +56,6 @@ const handleFormSubmit = (e) => {
         let passConfirmationErrorArray = []
 
         err.response.data.errors.forEach(errors => {
-            console.log(errors.param)
-            console.log(errors.msg)
 
             if(errors.param === 'username') {
                 userErrorArray.push(errors.msg)

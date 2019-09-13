@@ -49,8 +49,6 @@ const handleFormSubmit = (e) => {
         let passErrorArray = []
         
             err.response.data.errors.forEach(errors => {
-            console.log(errors.param)
-            console.log(errors.msg)
 
             if(errors.param === 'username') {
                 userErrorArray.push(errors.msg)
