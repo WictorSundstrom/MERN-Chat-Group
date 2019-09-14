@@ -5,7 +5,7 @@ class Home extends React.Component {
 
     render() {
         return (
-          <Redirect to="/Welcome" />
+          <Redirect to="/welcome" />
         )
     }
 }
