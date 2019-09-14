@@ -1,41 +1,45 @@
-import React from 'react';
-import { Link } from "react-router-dom";
-import { getToken } from '../Auth-components/AuthHelper'
-import '../Nav.css'
+import React, { useState } from 'react';
+import { Menu } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 
 export const Nav = () => {
-    if(getToken() === null) {
-        
-        return (<LoggedOutNav />)
-    }
-    else {
-        
-        console.log("loggedout trigger")
-        return (<LoggedInNav />)
-    }
-}
-
-export const LoggedOutNav = () => {
-
+    
+    const [activeItem, setActiveItem] = useState('')
+      
     return (
-        
-            <ul>
-                <li> <Link to="/login" className="nav-link">Login</Link> </li>
-            </ul>
-    )
-}
+        <Menu pointing>
+            <Menu.Item as={ Link }
+                name='home'
+                to=''
+                active={activeItem === 'home'}
+                onClick={e => setActiveItem(e.target.name)}
+            />
+           
+            <Menu.Item as={ Link }
+                name='chat'
+                to='chat'
+                active={activeItem === 'chat'}
+                onClick={e => setActiveItem(e.target.name)}
+            />
 
-export const LoggedInNav = () => {
 
-    return (
-        <ul>
-            <li>
-                <li> <Link to="/" className="nav-link active"> Home </Link> </li>
-                <li> <Link to="/chat" className="nav-link"> Chat </Link> </li>
-                <li> <Link to="/friends" className="nav-link"> Friends </Link></li>
-            </li>
-        </ul>
+            <Menu.Item as={ Link }
+                name='friends'
+                to='friends'
+                active={activeItem === 'friends'}
+                onClick={e => setActiveItem(e.target.name)}
+            />
+
+            <Menu.Menu position='right'>
+                <Menu.Item as={ Link }
+                    name='logout'
+                    to='logout'
+                    active={activeItem === 'logout'}
+                    onClick={e => setActiveItem(e.target.name)}
+                />
+        </Menu.Menu>
+    </Menu>
     )
 }
             /*  Fungerar!
