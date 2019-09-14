@@ -20,7 +20,7 @@ class App extends React.Component {
                     <Route path="/signup" component={ Signup } />
                     <ProtectedRoute path="/welcome" component={ Welcome } />
                     <ProtectedRoute path="/chat" component={ Chat } />
-                    <ProtectedRoute path="friends" component={ Friends } />
+                    <ProtectedRoute path="/friends" component={ Friends } />
             </Router>
         )
     }
