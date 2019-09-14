@@ -17,6 +17,9 @@ html, body {
 
 #root {
     height: 100%;
+    background-image: url(../img/background.jpg);
+    background-size: cover;
+ 
 }
 
 .chat {
@@ -187,4 +190,41 @@ html, body {
 .help-text {
     position: absolute;
     top: 10px;
+}
+.login-background{
+    padding: 3%;
+}
+.signup-background{
+    padding: 3%;
+}
+
+#login-segment {
+    width: 30%;
+    margin: 0 auto;
+}
+#login-top {
+    width: 30%;
+    margin: 0 auto;
+}
+#login-bottom {
+    width: 30%;
+    margin: 0 auto;
+}
+#signup-segment {
+    width: 30%;
+    margin: 0 auto;
+}
+#signup-top {
+    width: 30%;
+    margin: 0 auto;
+}
+#signup-bottom {
+    width: 30%;
+    margin: 0 auto;
+}
+#login-header {
+    font-family: 'Gill Sans'
+}
+#signup-header {
+    font-family: 'Gill Sans'
 }

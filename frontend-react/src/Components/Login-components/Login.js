@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { setToken } from '../Auth-components/AuthHelper';
-import { Button, Form, Message } from 'semantic-ui-react'
+import { Button, Form, Message, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import Image from '../../img/background.jpg'
 
 export const Login = (props) => {
 
@@ -107,61 +108,70 @@ const passMessages = passError.msg.map((d) => <Message.List key={d}>{d}</Message
 
 
 return(
-    <div className='login-form'>
-        <div className="ui attached message">
-            <div className="header">
-                Welcome to our site!
+    <div className='login-background'>
+        <div className='login-form'>
+            <div 
+            id="login-top"
+            className="ui attached message">
+                <div 
+                id="login-header"
+                className="header">
+                <h1>Login</h1>
+                </div>
             </div>
-            <p>Fill out the form below to sign-up for a new account</p>
-        </div>
-        <Form onSubmit={e => handleFormSubmit(e)}>
-            <Form.Input 
-                label="Username"
-                id="user"
-                value={user.username}
-                placeholder="Username"
-                name="username"
-                onChange={updateField}
-                error={userError.inputError}
-            />
-            <Message
-            negative
-            error={!userError.msgError}
-            >
-                <Message.Header>Username error</Message.Header>
-                {userMessages}
-            </Message>
+                <Segment id="login-segment">
+                <Form onSubmit={e => handleFormSubmit(e)}>
+                    <Form.Input 
+                        label="Username"
+                        id="user"
+                        value={user.username}
+                        placeholder="Username"
+                        name="username"
+                        onChange={updateField}
+                        error={userError.inputError}
+                    />
+                    <Message
+                    negative
+                    error={!userError.msgError}
+                    >
+                        <Message.Header>Username error</Message.Header>
+                        {userMessages}
+                    </Message>
 
 
-            <Form.Input
-                label="Password"
-                id="pass"
-                type="password"
-                value={user.password}
-                placeholder="Password"
-                name="password"
-                onChange={updateField}
-                error={passError.inputError}
-            />
-            <Message
-            negative
-            error={!passError.msgError}
-            >
-                <Message.Header>Password error</Message.Header>
-                {passMessages}
-            </Message>
+                    <Form.Input
+                        label="Password"
+                        id="pass"
+                        type="password"
+                        value={user.password}
+                        placeholder="Password"
+                        name="password"
+                        onChange={updateField}
+                        error={passError.inputError}
+                    />
+                    <Message
+                    negative
+                    error={!passError.msgError}
+                    >
+                        <Message.Header>Password error</Message.Header>
+                        {passMessages}
+                    </Message>
 
-            <Button className="ui button"
-                id="formSubmit"
-                type="submit"
-                value="Login"
-                onSubmit={handleFormSubmit}
-            >Submit!
-            </Button>
-        </Form>
-        <div className="ui bottom attached warning message">
-                <i className="icon help"></i>
-                Not Registered? <Link to="/signup">Register here!</Link>
+                    <Button className="ui button"
+                        id="formSubmit"
+                        type="submit"
+                        value="Login"
+                        onSubmit={handleFormSubmit}
+                    >Submit!
+                    </Button>
+                </Form>
+            </Segment>
+            <div 
+            id="login-bottom"
+            className="ui bottom attached warning message">
+                    <i className="icon help"></i>
+                    Not Registered? <Link to="/signup">Register here!</Link>
+            </div>
         </div>
     </div>
     )

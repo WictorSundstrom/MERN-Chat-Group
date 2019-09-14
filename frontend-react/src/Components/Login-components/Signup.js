@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Button, Form, Message } from 'semantic-ui-react'
+import { Button, Form, Message, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 export const Signup = (props) => {
@@ -138,79 +138,88 @@ const passConfirmMessages = passConfirmationError.msg.map((d) => <Message.List k
 
 
 return(
-    <div className='login-form'>
-        <div className="ui attached message">
-            <div className="header">
-                Welcome to our site!
+    <div className='signup-background'>
+        <div className='signup-form'>
+            <div 
+            id="signup-top"
+            className="ui attached message">
+                <div 
+                id="signup-header"
+                className="header">
+                    <h1>Sign up</h1>
+                </div>
             </div>
-            <p>Fill out the form below to sign-up for a new account</p>
-        </div>
-        <Form onSubmit={e => handleFormSubmit(e)}>
-            <Form.Input 
-                label="Username"
-                id="user"
-                value={user.username}
-                placeholder="Username"
-                name="username"
-                onChange={updateField}
-                error={userError.inputError}
-            />
-            <Message
-            negative
-            error={!userError.msgError}
-            >
-                <Message.Header>Username error</Message.Header>
-                {userMessages}
-            </Message>
+            <Segment id="signup-segment">
+                <Form onSubmit={e => handleFormSubmit(e)}>
+                    <Form.Input 
+                        label="Username"
+                        id="user"
+                        value={user.username}
+                        placeholder="Username"
+                        name="username"
+                        onChange={updateField}
+                        error={userError.inputError}
+                    />
+                    <Message
+                    negative
+                    error={!userError.msgError}
+                    >
+                        <Message.Header>Username error</Message.Header>
+                        {userMessages}
+                    </Message>
 
 
-            <Form.Input
-                label="Password"
-                id="pass"
-                type="password"
-                value={user.password}
-                placeholder="Password"
-                name="password"
-                onChange={updateField}
-                error={passError.inputError}
-            />
-            <Message
-            negative
-            error={!passError.msgError}
-            >
-                <Message.Header>Password error</Message.Header>
-                {passMessages}
-            </Message>
+                    <Form.Input
+                        label="Password"
+                        id="pass"
+                        type="password"
+                        value={user.password}
+                        placeholder="Password"
+                        name="password"
+                        onChange={updateField}
+                        error={passError.inputError}
+                    />
+                    <Message
+                    negative
+                    error={!passError.msgError}
+                    >
+                        <Message.Header>Password error</Message.Header>
+                        {passMessages}
+                    </Message>
 
-            <Form.Input
-                label="Repeat Password"
-                id="passAgain"
-                type="password"
-                value={user.passwordConfirmation}
-                placeholder="Password"
-                name="passwordConfirmation"
-                onChange={updateField}
-                error={passConfirmationError.inputError}
-            />
-            <Message
-            negative
-            error={!passConfirmationError.msgError}
-            >
-                <Message.Header>Password confirmation error</Message.Header>
-                {passConfirmMessages}
-            </Message>
-             
-            <Button className="ui button"
-                id="formSubmit"
-                type="submit"
-                value="Login"
-                onSubmit={handleFormSubmit}
-            >Submit!
-            </Button>
-        </Form>
-        <div className="ui bottom attached warning message">
-                <i className="icon help"></i>
-                Already signed up? <Link to="/login">Login here!</Link>
+                    <Form.Input
+                        label="Repeat Password"
+                        id="passAgain"
+                        type="password"
+                        value={user.passwordConfirmation}
+                        placeholder="Password"
+                        name="passwordConfirmation"
+                        onChange={updateField}
+                        error={passConfirmationError.inputError}
+                    />
+                    <Message
+                    negative
+                    error={!passConfirmationError.msgError}
+                    >
+                        <Message.Header>Password confirmation error</Message.Header>
+                        {passConfirmMessages}
+                    </Message>
+                    
+                    <Button className="ui button"
+                        id="formSubmit"
+                        type="submit"
+                        value="Login"
+                        onSubmit={handleFormSubmit}
+                    >Submit!
+                    </Button>
+                </Form>
+            </Segment>
+            <div
+            id="signup-bottom"
+            className="ui bottom attached warning message">
+                    <i className="icon help"></i>
+                    Already signed up? <Link to="/login">Login here!</Link>
+            </div>
         </div>
     </div>
     )
