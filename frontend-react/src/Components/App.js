@@ -1,13 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import Home from './Home'
+import { Home } from './Home'
 import { Login } from './Login-components/Login'
 import { Signup } from './Login-components/Signup'
-import { Logout } from './Login-components/Logout'
-import Chat from './Chat'
-import Welcome from './Welcome'
-import Friends from './Friends'
+import { Chat } from './Chat'
+import { Welcome } from './Welcome'
+import { Friends } from './Friends'
 import { ProtectedRoute } from './Routes/ProtectedRoute'
 
 
@@ -22,8 +21,6 @@ class App extends React.Component {
                     <ProtectedRoute path="/welcome" component={ Welcome } />
                     <ProtectedRoute path="/chat" component={ Chat } />
                     <ProtectedRoute path="/friends" component={ Friends } />
-                    <ProtectedRoute path="/logout" component={ Logout } />
-
             </Router>
         )
     }

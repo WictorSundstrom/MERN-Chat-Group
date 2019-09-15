@@ -1,17 +1,13 @@
 import React from 'react'
 import { Nav } from './Nav-components/Nav'
 
-class Welcome extends React.Component {
+export const Welcome = (props) => {
 
-    render() {
-        return (
-            <div>
-                <div className="header">
-                    <Nav />
-                </div>
+    return (
+        <div>
+            <div className="header">
+                <Nav props={props}/>
             </div>
-        )
-    }
+        </div>
+    )
 }
-
-export default Welcome
