@@ -2,12 +2,14 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const { check, body } = require('express-validator')
+const envVars = require('dotenv').config()
 const signup = require('./controllers/auth').signup
 const login = require('./controllers/auth').login
+const logout = require('./controllers/auth').logout
 const isAuthorized = require('./controllers/auth').isAuthorized
-const envVars = require('dotenv').config()
-const { check, body } = require('express-validator')
-const User = require('./models/user.model')
+const loadFriends = require('./controllers/friends').loadFriends
+const updateFriends = require('./controllers/friends').updateFriends
 
 const server = express()
 
@@ -62,8 +64,12 @@ server.post('/login', [
     .isLength({ min : 6 }).withMessage('Password has to be at least 6 characters long'),
 ], login)
 
+server.post('/logout', logout)
+
 server.use('/chat', isAuthorized)
 
+server.get('/friends', loadFriends)
+server.post('/friends', updateFriends)
 
 server.listen(3001, function() {
     console.log(`server started at port 3001!`)

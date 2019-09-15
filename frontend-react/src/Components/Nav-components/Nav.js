@@ -2,11 +2,39 @@ import React, { useState } from 'react';
 import { Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
+import axios from 'axios'
+import { logout, getToken } from '../Auth-components/AuthHelper'
 
-export const Nav = () => {
+export const Nav = (props) => {
     
     const [activeItem, setActiveItem] = useState('')
-      
+    
+    const logoutAxios = (e) => {
+        console.log('In logoutAxios')
+
+        axios({
+            method: 'post',
+            url: 'http://localhost:3001/logout',
+            data: {
+                token: getToken()
+            }
+        }).then((result) => {
+            console.log(result)
+            if (result) {
+            console.log('back after callback')
+            console.log(props)
+                props.props.history.replace({
+                    pathname : '/login'
+                })
+                logout()
+            }
+        }).catch((err) => {
+            if(err) {
+                console.log("Log out error")
+            }
+        })
+    }
+
     return (
         <Menu pointing>
             <Menu.Item as={ Link }
@@ -32,11 +60,9 @@ export const Nav = () => {
             />
 
             <Menu.Menu position='right'>
-                <Menu.Item as={ Link }
+                <Menu.Item
                     name='logout'
-                    to='logout'
-                    active={activeItem === 'logout'}
-                    onClick={e => setActiveItem(e.target.name)}
+                    onClick={e => logoutAxios(e)}
                 />
         </Menu.Menu>
     </Menu>

@@ -39,6 +39,7 @@ const signup = async (req, res) => {
         user.username = req.body.username
         user.password = req.body.password
         user.passwordConfirmation = req.body.passwordConfirmation
+        user.rights = "Member"
         user.status = "Offline"
         user.save(function (err, user) {
             if (err) {
@@ -85,6 +86,25 @@ const login = async (req, res) => {
 
 }     
 
+const logout = async (req, res) => {
+
+    try {
+        payload = await verifyJWT(req.body.token)
+    } catch (e) {
+        return res.status(500).end()
+    }
+    //console.log(payload.id)
+    const user = await User.findById(payload.id).exec()
+    if (!user) {
+        console.log('user error')
+        return res.status(500).end()
+    }
+
+    User.updateOne({'_id': user}, {$set: {'status': 'Offline'}}).exec()
+    return res.status(201).send()
+    //verifyJWT(req.body.token)
+}
+
 const isAuthorized = async (req, res, next) => {
 
     const token = req.headers.authorization
@@ -112,5 +132,6 @@ const isAuthorized = async (req, res, next) => {
 module.exports = {
     signup: signup,
     login: login,
+    logout: logout,
     isAuthorized: isAuthorized
 }
