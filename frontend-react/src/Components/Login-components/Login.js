@@ -3,7 +3,6 @@ import axios from 'axios'
 import { setToken } from '../Auth-components/AuthHelper';
 import { Button, Form, Message, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import Image from '../../img/background.jpg'
 
 export const Login = (props) => {
 
@@ -40,6 +39,7 @@ const handleFormSubmit = (e) => {
         if (result && result.data && result.data.signedJWT) {
             console.log("Log in successful")
             setToken(result.data.signedJWT)
+            console.log(props)
             props.history.replace({
                 pathname : '/Welcome',
                 state : {redirected : true }
@@ -49,7 +49,7 @@ const handleFormSubmit = (e) => {
         let userErrorArray = []
         let passErrorArray = []
         
-            err.response.data.errors.forEach(errors => {
+        err.response.data.errors.forEach(errors => {
 
             if(errors.param === 'username') {
                 userErrorArray.push(errors.msg)
@@ -121,7 +121,8 @@ return(
             </div>
                 <Segment id="login-segment">
                 <Form onSubmit={e => handleFormSubmit(e)}>
-                    <Form.Input 
+                    <Form.Input
+                        icon='user'
                         label="Username"
                         id="user"
                         value={user.username}
@@ -140,6 +141,7 @@ return(
 
 
                     <Form.Input
+                        icon='lock'
                         label="Password"
                         id="pass"
                         type="password"

@@ -152,6 +152,7 @@ return(
             <Segment id="signup-segment">
                 <Form onSubmit={e => handleFormSubmit(e)}>
                     <Form.Input 
+                        icon='user'
                         label="Username"
                         id="user"
                         value={user.username}
@@ -170,6 +171,7 @@ return(
 
 
                     <Form.Input
+                        icon='lock'
                         label="Password"
                         id="pass"
                         type="password"
@@ -188,6 +190,7 @@ return(
                     </Message>
 
                     <Form.Input
+                        icon='lock'
                         label="Repeat Password"
                         id="passAgain"
                         type="password"
