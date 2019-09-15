@@ -228,3 +228,9 @@ html, body {
 #signup-header {
     font-family: 'Gill Sans'
 }
+
+.search-form {
+    margin: 0 auto;
+    padding: 0;
+    width: 15%;
+}
