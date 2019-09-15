@@ -1,46 +1,65 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Input, Segment, Form } from 'semantic-ui-react'
+import { Segment, Form, List } from 'semantic-ui-react'
 import { Nav } from './Nav-components/Nav'
+import { getToken } from './Auth-components/AuthHelper'
 
 export const Friends = (props) => {
     const [searchParam, setSearchParam] = useState("")
-    const [user, setUser] = useState({
-        username: [],
+    const [user, setUser] = useState({ users: [] })
+
+    const [ currenctUser, setCurrentUser ] = useState({
+        id: "",
+        username: "",
         friends: [{
             username: "",
             status: ""
         }],
     })
+   
+    const [allUsernames, setAllUsernames] = useState([])
 
-    const searchForm = e => {
-        e.preventDefault();
+    useEffect(() => {
+        searchForm();
+    }, []);
         
-        console.log("In searchform")
-
+    const searchForm = () => {
+       
         axios({
             method: 'get',
             url: 'http://localhost:3001/friends',
+            params: {
+                token: getToken()
+            }
         }).then((result) => {
             if (result && result.data) {
 
-                
-                result.data.forEach(data => {
-                    console.log(data.friends)
+                let usernameArray = result.data[0].username
+                let userArray = result.data[0].users
+                let newUserArray = []
+                var usernames = [];
 
-                    setUser([{
-                        username: data.username,
-                        friends: [{
-                            username: data.friends.username,
-                            status: data.friends.status
-                        }],
-                    }])
-                    
+                setCurrentUser({
+                    id: usernameArray._id,
+                    username: usernameArray.username,
+                    friends: usernameArray.friends
+                })
+
+                userArray.forEach(newUser => {
+                    newUserArray.push({
+                        id: newUser._id,
+                        username: newUser.username})
+                })
+
+                newUserArray.forEach(user => {
+                    usernames.push(user.username);
+                    setUser([...newUserArray])    
                 })
                 
-                console.log("user")
-                console.log(user)
-            }
+                console.log(usernames)
+                setAllUsernames({usernames})
+            }             
+              
         }).catch((err) => {
             console.log(err)
         })
@@ -51,17 +70,42 @@ export const Friends = (props) => {
     
     }
 
+
+   /*  
+    const allUsers = (i) => {
+            return (
+                <List.Item key={i}>
+                    <List.Content>
+                        <List.Header>{i}</List.Header>
+                    </List.Content>
+                </List.Item>
+            )
+    } 
+    
+    */
+
+var allUsers = Object.keys(allUsernames).map(function(key) {
+    return (
+        <List.Item value={key}>
+            <List.Content>
+                <List.Header>{allUsernames[key]}</List.Header>
+            </List.Content>
+        </List.Item>
+    )
+    
+});
+
+
     return (
         <div>
             <div className="header">
                 <Nav props={props}/>
             </div>
             <div className="friends">
-            {console.log(searchParam)}
                 <Segment basic textAlign='center'>
                     <Form
                         className="search-form"
-                        onSubmit={e => searchForm(e)}
+                        onSubmit={e => (e)}
                     >
                         <Form.Input
                             className="search-input"
@@ -74,10 +118,10 @@ export const Friends = (props) => {
                     </Form>
                 </Segment>
 
-                <Segment>
-                    <p>Hej</p>
-                </Segment>
-
+                <List divided verticalAlign='middle'>
+                   {allUsers}
+                </List>                
+                
             </div>
         </div>
     )

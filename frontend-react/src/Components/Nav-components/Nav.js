@@ -10,7 +10,6 @@ export const Nav = (props) => {
     const [activeItem, setActiveItem] = useState('')
     
     const logoutAxios = (e) => {
-        console.log('In logoutAxios')
 
         axios({
             method: 'post',
@@ -19,14 +18,12 @@ export const Nav = (props) => {
                 token: getToken()
             }
         }).then((result) => {
-            console.log(result)
             if (result) {
-            console.log('back after callback')
-            console.log(props)
                 props.props.history.replace({
                     pathname : '/login'
                 })
                 logout()
+                console.log('Log out succesful')
             }
         }).catch((err) => {
             if(err) {

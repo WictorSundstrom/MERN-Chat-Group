@@ -8,8 +8,8 @@ const signup = require('./controllers/auth').signup
 const login = require('./controllers/auth').login
 const logout = require('./controllers/auth').logout
 const isAuthorized = require('./controllers/auth').isAuthorized
-const loadFriends = require('./controllers/friends').loadFriends
-const updateFriends = require('./controllers/friends').updateFriends
+const loadFriends = require('./controllers/auth').loadFriends
+const updateFriends = require('./controllers/auth').updateFriends
 
 const server = express()
 

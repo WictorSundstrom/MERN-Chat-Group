@@ -16,6 +16,17 @@ const verifyJWT = token =>
     })
 })
 
+const checkUsername = async token => {
+    try {
+        payload = await verifyJWT(token)
+    } catch (e) {
+        
+        console.log('JWT error')
+        return res.status(500).end()
+    }
+    return payload
+}
+
 
 const signup = async (req, res) => {
 
@@ -88,12 +99,8 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
 
-    try {
-        payload = await verifyJWT(req.body.token)
-    } catch (e) {
-        return res.status(500).end()
-    }
-    //console.log(payload.id)
+    payload = await checkUsername(req.body.token)
+    
     const user = await User.findById(payload.id).exec()
     if (!user) {
         console.log('user error')
@@ -102,7 +109,6 @@ const logout = async (req, res) => {
 
     User.updateOne({'_id': user}, {$set: {'status': 'Offline'}}).exec()
     return res.status(201).send()
-    //verifyJWT(req.body.token)
 }
 
 const isAuthorized = async (req, res, next) => {
@@ -128,10 +134,40 @@ const isAuthorized = async (req, res, next) => {
     next()
 }
 
+const loadFriends = async (req, res) => {
+    
+    payload = await checkUsername(req.query.token)
+
+    const user = await User.findById(payload.id).exec()
+
+    if (!user) {
+        console.log('user error')
+        return res.status(500).end()
+    }
+    console.log(user)
+    User.find({ _id: { $ne: user }}).then(function(users) {
+        let jsonData = [{
+            users: users,
+            username: user
+        }]
+        return res.status(201).json(jsonData)
+    })
+}   
+
+const updateFriends = async (req, res) => {
+
+    return res.status(201).send({ signedJWT })
+
+}   
+
+
+
 
 module.exports = {
     signup: signup,
     login: login,
     logout: logout,
-    isAuthorized: isAuthorized
+    isAuthorized: isAuthorized,
+    loadFriends: loadFriends,
+    updateFriends: updateFriends
 }
