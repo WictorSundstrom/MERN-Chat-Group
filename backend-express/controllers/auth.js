@@ -16,7 +16,7 @@ const verifyJWT = token =>
     })
 })
 
-const checkUsername = async token => {
+const checkUsername = async (token, res) => {
     try {
         payload = await verifyJWT(token)
     } catch (e) {
@@ -155,24 +155,46 @@ const loadFriends = async (req, res) => {
 }   
 
 const updateFriends = async (req, res) => {
-    console.log("user")
-    console.log(req.body.user)
-    console.log("friend")
-    console.log(req.body.friend)
 
-    //user.friends.push(newFriend._id)
-    //User.findOneAndUpdate({'_id': req.body.user}, {$push: {friends: req.body.friend}});
+    if(req.body.change === 'add') {
+        try {
+          let promise1 = User.findOneAndUpdate(
+            { "_id": req.body.user },
+            { "$push": { "friends": req.body.friend } }
+          );
+      
+          let promise2 = User.findOneAndUpdate(
+            { "_id": req.body.friend },
+            { "$push": { "friends": req.body.user } }
+          );
+      
+        await Promise.all([promise1, promise2,])
+            
+        } catch(err) {
+           console.log(err)
+        }
+    }
 
-    User.findOneAndUpdate(
-        req.params.user,
-        { $push: { friends: req.body.friend } },
-        //{ upsert: true }, // upsert looks to find a Message with that id and if it doesn't exist creates the Message 
-        function(err, data) {
-        console.log(data)
-        })
+    else {
+        try {
+          let promise1 = User.findOneAndUpdate(
+            { "_id": req.body.user },
+            { "$pull": { "friends": req.body.friend } }
+          );
+      
+          let promise2 = User.findOneAndUpdate(
+            { "_id": req.body.friend },
+            { "$pull": { "friends": req.body.user } }
+          );
+      
+        await Promise.all([promise1, promise2,])
+
+        } catch(err) {
+           console.log(err)
+        }
+    }
     
-        return res.status(201).send()
-
+    return res.status(201).send()
 }   
 
 

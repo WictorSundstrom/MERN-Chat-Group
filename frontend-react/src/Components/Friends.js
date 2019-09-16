@@ -56,71 +56,60 @@ export const Friends = (props) => {
                 })
 
                 setUser(newUserArray)    
-                
-            }             
-              
+            }                 
         }).catch((err) => {
             console.log(err)
         })
     }
 
 
-    const handleFriends = (friendId) => {
+    const handleFriends = (friendId, change) => {
         axios({
             method: 'post',
             url: 'http://localhost:3001/friends',
             data: {
                 user: currenctUser.id,
-                friend: friendId
+                friend: friendId,
+                change: change
             }
         }).then((result) => {
-              console.log("added friend")      
-              
+            searchForm()
         }).catch((err) => {
             console.log(err)
-        })
+        }) 
     }
-
-
 
     const updateField = e => {
         setSearchParam(e.target.value);
-    
     }
 
-
     const renderButtons = (item) => {
+
         if(currenctUser.friends.map((x) => {
-            return x.id}).indexOf(item) > -1) {
-            
-            return (
-                <div >
-                <Button
-                    color="red"
-                    onClick={handleFriends.bind(this, item)}   
-                >
-                Remove
-                </Button>  
-                </div>
+            return x}).indexOf(item) > -1) {
+                return (
+                    <div >
+                    <Button
+                        color="red"
+                        onClick={handleFriends.bind(this, item, "remove")}   
+                    >
+                    Remove
+                    </Button>  
+                    </div>
             )
         }
+
         else {
             return (
                 <Button
                     color="green" 
-                    onClick={handleFriends.bind(this, item)}
+                    onClick={handleFriends.bind(this, item, "add")}
                 >
                 Add
-                
-       {console.log(currenctUser)}
                 </Button>  
             )
         }
     }
-    
-    
-    
-    
     
     const allUsers = (items) => {
         return (
@@ -142,7 +131,6 @@ export const Friends = (props) => {
            
         )
     }
-        
 
     return (
         <div>
