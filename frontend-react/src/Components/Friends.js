@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Segment, Form, List } from 'semantic-ui-react'
+import { Segment, Form, List, Button } from 'semantic-ui-react'
 import { Nav } from './Nav-components/Nav'
 import { getToken } from './Auth-components/AuthHelper'
 
 export const Friends = (props) => {
     const [searchParam, setSearchParam] = useState("")
-    const [user, setUser] = useState({ users: [] })
+    const [user, setUser] = useState([])
 
     const [ currenctUser, setCurrentUser ] = useState({
         id: "",
         username: "",
         friends: [{
-            username: "",
+            id: "",
             status: ""
         }],
     })
-   
-    const [allUsernames, setAllUsernames] = useState([])
+
 
     useEffect(() => {
         searchForm();
     }, []);
         
     const searchForm = () => {
-       
         axios({
             method: 'get',
             url: 'http://localhost:3001/friends',
@@ -37,27 +35,28 @@ export const Friends = (props) => {
                 let usernameArray = result.data[0].username
                 let userArray = result.data[0].users
                 let newUserArray = []
-                var usernames = [];
+                let usernames = [];
+                let ids = [];
 
                 setCurrentUser({
                     id: usernameArray._id,
                     username: usernameArray.username,
                     friends: usernameArray.friends
                 })
-
+                
                 userArray.forEach(newUser => {
                     newUserArray.push({
                         id: newUser._id,
                         username: newUser.username})
                 })
-
+                
                 newUserArray.forEach(user => {
                     usernames.push(user.username);
-                    setUser([...newUserArray])    
+                    ids.push(user.id)
                 })
+
+                setUser(newUserArray)    
                 
-                console.log(usernames)
-                setAllUsernames({usernames})
             }             
               
         }).catch((err) => {
@@ -65,36 +64,85 @@ export const Friends = (props) => {
         })
     }
 
+
+    const handleFriends = (friendId) => {
+        axios({
+            method: 'post',
+            url: 'http://localhost:3001/friends',
+            data: {
+                user: currenctUser.id,
+                friend: friendId
+            }
+        }).then((result) => {
+              console.log("added friend")      
+              
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+
+
     const updateField = e => {
         setSearchParam(e.target.value);
     
     }
 
 
-   /*  
-    const allUsers = (i) => {
+    const renderButtons = (item) => {
+        if(currenctUser.friends.map((x) => {
+            return x.id}).indexOf(item) > -1) {
+            
             return (
-                <List.Item key={i}>
-                    <List.Content>
-                        <List.Header>{i}</List.Header>
-                    </List.Content>
-                </List.Item>
+                <div >
+                <Button
+                    color="red"
+                    onClick={handleFriends.bind(this, item)}   
+                >
+                Remove
+                </Button>  
+                </div>
             )
-    } 
+        }
+        else {
+            return (
+                <Button
+                    color="green" 
+                    onClick={handleFriends.bind(this, item)}
+                >
+                Add
+                
+       {console.log(currenctUser)}
+                </Button>  
+            )
+        }
+    }
     
-    */
-
-var allUsers = Object.keys(allUsernames).map(function(key) {
-    return (
-        <List.Item value={key}>
-            <List.Content>
-                <List.Header>{allUsernames[key]}</List.Header>
-            </List.Content>
-        </List.Item>
-    )
     
-});
-
+    
+    
+    
+    const allUsers = (items) => {
+        return (
+            items.map((item) =>  {            
+                return (
+                    <List.Item key={item.id}>
+                        <List.Content floated='right'>
+                            {renderButtons(item.id)} 
+                        </List.Content>
+                        <List.Content>
+                            <List.Header >
+                                {item.username}
+                            </List.Header>
+                        </List.Content>
+                        
+                    </List.Item> 
+                )
+            })
+           
+        )
+    }
+        
 
     return (
         <div>
@@ -113,15 +161,16 @@ var allUsers = Object.keys(allUsernames).map(function(key) {
                             icon='search'
                             iconPosition='left'
                             placeholder='Username'
+                            value={searchParam}
                             onChange={updateField}
                         />
                     </Form>
                 </Segment>
 
                 <List divided verticalAlign='middle'>
-                   {allUsers}
-                </List>                
-                
+                    {allUsers(user)}
+                </List>
+
             </div>
         </div>
     )

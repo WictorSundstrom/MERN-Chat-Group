@@ -135,7 +135,7 @@ const isAuthorized = async (req, res, next) => {
 }
 
 const loadFriends = async (req, res) => {
-    
+
     payload = await checkUsername(req.query.token)
 
     const user = await User.findById(payload.id).exec()
@@ -144,7 +144,7 @@ const loadFriends = async (req, res) => {
         console.log('user error')
         return res.status(500).end()
     }
-    console.log(user)
+
     User.find({ _id: { $ne: user }}).then(function(users) {
         let jsonData = [{
             users: users,
@@ -155,8 +155,23 @@ const loadFriends = async (req, res) => {
 }   
 
 const updateFriends = async (req, res) => {
+    console.log("user")
+    console.log(req.body.user)
+    console.log("friend")
+    console.log(req.body.friend)
 
-    return res.status(201).send({ signedJWT })
+    //user.friends.push(newFriend._id)
+    //User.findOneAndUpdate({'_id': req.body.user}, {$push: {friends: req.body.friend}});
+
+    User.findOneAndUpdate(
+        req.params.user,
+        { $push: { friends: req.body.friend } },
+        //{ upsert: true }, // upsert looks to find a Message with that id and if it doesn't exist creates the Message 
+        function(err, data) {
+        console.log(data)
+        })
+    
+        return res.status(201).send()
 
 }   
 

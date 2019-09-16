@@ -70,7 +70,7 @@ server.use('/chat', isAuthorized)
 
 server.get('/friends', loadFriends)
 server.post('/friends', updateFriends)
-
+  
 server.listen(3001, function() {
     console.log(`server started at port 3001!`)
 })
