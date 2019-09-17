@@ -4,23 +4,25 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const { check, body } = require('express-validator')
 const envVars = require('dotenv').config()
+const socket = require('socket.io');
+
 const signup = require('./controllers/auth').signup
 const login = require('./controllers/auth').login
 const logout = require('./controllers/auth').logout
 const isAuthorized = require('./controllers/auth').isAuthorized
-const loadFriends = require('./controllers/auth').loadFriends
-const updateFriends = require('./controllers/auth').updateFriends
+const friendRouter = require('./routes/friend')
+const postRouter = require('./routes/post')
 
-const server = express()
+const app = express()
 
 
 if (envVars.error) {
     console.log('.env Error')
 }
 
-server.use(cors())
-server.use(bodyParser.json())
-server.use(bodyParser.urlencoded({extended: true}))
+app.use(cors())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
 
 mongoose.connect('mongodb://localhost/testbase1000', {useNewUrlParser: true, useCreateIndex: true})
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error'))
@@ -29,7 +31,7 @@ mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection 
 //    res.json({aProperty : 'Some Value'})
 //})
 
-server.post('/signup',  [
+app.post('/signup',  [
     check('username')
     .not().isEmpty().withMessage('Username is empty')
     .isAlphanumeric(['sv-SE']).withMessage('No special characters allowed')
@@ -53,7 +55,7 @@ server.post('/signup',  [
 ],
  signup)
 
-server.post('/login', [
+ app.post('/login', [
     check('username')
     .not().isEmpty().withMessage('Username is empty')
     .isAlphanumeric(['sv-SE']).withMessage('No special characters allowed')
@@ -64,13 +66,30 @@ server.post('/login', [
     .isLength({ min : 6 }).withMessage('Password has to be at least 6 characters long'),
 ], login)
 
-server.post('/logout', logout)
+app.post('/logout', logout)
 
-server.use('/chat', isAuthorized)
+app.use('/chat', isAuthorized)
 
-server.get('/friends', loadFriends)
-server.post('/friends', updateFriends)
+//server.get('/friends', loadFriends)
+//server.post('/friends', updateFriends)
   
-server.listen(3001, function() {
+app.use('/api', isAuthorized)
+app.use('/api/friends', friendRouter)
+app.use('/api/chat', postRouter)
+
+
+
+server = app.listen(3001, function() {
     console.log(`server started at port 3001!`)
 })
+
+
+io = socket(server);
+
+io.on('connection', (socket) => {
+    console.log(socket.id);
+
+    socket.on('SEND_MESSAGE', function(data){
+        io.emit('RECEIVE_MESSAGE', data);
+    })
+});
