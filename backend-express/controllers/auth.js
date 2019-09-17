@@ -113,9 +113,10 @@ const logout = async (req, res) => {
 
 const isAuthorized = async (req, res, next) => {
 
-    const token = req.headers.authorization
+    const bearer = req.headers.authorization
     
-    //const token = bearer.split('Bearer ')[1].trim()
+    const token = bearer.split('Bearer ')[1].trim()
+
     let payload
 
     try {
@@ -134,77 +135,22 @@ const isAuthorized = async (req, res, next) => {
     next()
 }
 
-const loadFriends = async (req, res) => {
-
-    payload = await checkUsername(req.query.token)
-
-    const user = await User.findById(payload.id).exec()
-
-    if (!user) {
-        console.log('user error')
-        return res.status(500).end()
-    }
-
-    User.find({ _id: { $ne: user }}).then(function(users) {
-        let jsonData = [{
-            users: users,
-            username: user
-        }]
-        return res.status(201).json(jsonData)
-    })
-}   
-
-const updateFriends = async (req, res) => {
-
-    if(req.body.change === 'add') {
-        try {
-          let promise1 = User.findOneAndUpdate(
-            { "_id": req.body.user },
-            { "$push": { "friends": req.body.friend } }
-          );
-      
-          let promise2 = User.findOneAndUpdate(
-            { "_id": req.body.friend },
-            { "$push": { "friends": req.body.user } }
-          );
-      
-        await Promise.all([promise1, promise2,])
-            
-        } catch(err) {
-           console.log(err)
+const isAdmin = async (req, res, next) => {
+    if (req.user) {
+        if(req.user.rights === "admin") {
+            console.log("admin!")
+            next()
+        }
+        else {
+            console.log("member!")
+            res.redirect("/");
         }
     }
-
-    else {
-        try {
-          let promise1 = User.findOneAndUpdate(
-            { "_id": req.body.user },
-            { "$pull": { "friends": req.body.friend } }
-          );
-      
-          let promise2 = User.findOneAndUpdate(
-            { "_id": req.body.friend },
-            { "$pull": { "friends": req.body.user } }
-          );
-      
-        await Promise.all([promise1, promise2,])
-
-        } catch(err) {
-           console.log(err)
-        }
-    }
-    
-    return res.status(201).send()
-}   
-
-
-
+}
 
 module.exports = {
     signup: signup,
     login: login,
     logout: logout,
     isAuthorized: isAuthorized,
-    loadFriends: loadFriends,
-    updateFriends: updateFriends
 }
