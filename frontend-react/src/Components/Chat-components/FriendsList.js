@@ -5,11 +5,11 @@ import { getToken } from '../Auth-components/AuthHelper'
 
 export const FriendsList = (props) => {
     const [user, setUser] = useState([])
-    
+
     useEffect(() => {
         friendsList();
     }, []);
-        
+
     const friendsList = () => {
         axios({
             method: 'get',
@@ -23,7 +23,7 @@ export const FriendsList = (props) => {
                 let usernameArray = result.data[0].username
                 let userArray = result.data[0].users
                 let newUserArray = []
-                
+
                 userArray.forEach(newUser => {
                     if(usernameArray.friends.map((x) => {
                         return x}).indexOf(newUser._id) > -1) {
@@ -37,8 +37,8 @@ export const FriendsList = (props) => {
                     }
                 })
 
-                setUser(newUserArray)    
-            }                 
+                setUser(newUserArray)
+            }
         }).catch((err) => {
             console.log(err)
         })
@@ -47,10 +47,10 @@ export const FriendsList = (props) => {
     const changeFriend = (friend) => {
         console.log(friend)
     }
-       
+
     const allUsers = (items) => {
         return (
-            items.map((item) =>  {            
+            items.map((item) =>  {
                 return (
                     <List.Item key={item.id}>
                         <List.Content>
@@ -59,7 +59,7 @@ export const FriendsList = (props) => {
                                 {item.username}
                             </List.Header>
                         </List.Content>
-                    </List.Item> 
+                    </List.Item>
                 )
             })
         )
@@ -67,7 +67,7 @@ export const FriendsList = (props) => {
 
     return (
         <div className="friendsList">
-            <List 
+            <List
             selection
             divided
             verticalAlign='middle'>
@@ -76,4 +76,3 @@ export const FriendsList = (props) => {
         </div>
     )
 }
-

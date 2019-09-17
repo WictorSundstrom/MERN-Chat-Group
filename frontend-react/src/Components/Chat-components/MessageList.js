@@ -10,7 +10,7 @@ class Chat extends React.Component{
             message: '',
             messages: []
         };
-        
+
 
         this.socket = io('localhost:3001');
 
@@ -36,7 +36,7 @@ class Chat extends React.Component{
     }
 
     componentDidMount() {
-        
+
     }
 
     render(){
@@ -71,6 +71,5 @@ class Chat extends React.Component{
 
         );
     }
-}
 
 export default Chat;

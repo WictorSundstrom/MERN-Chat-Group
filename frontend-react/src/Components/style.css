@@ -1,7 +1,7 @@
 :root {
     --main-color: #000000;
     --secondary-color: rgb(230, 122, 0);
-    --main-text-color: #3e5869;
+    --main-text-color: #fdfdfd;
     --secondary-text-color: #ffffff;
     --send-message-form: rgb(13, 0, 199);
 }
@@ -133,9 +133,12 @@ html, body {
 }
 
 .message .message-username {
-    font-size: 11px;
-    color: var(--main-text-color);
-    opacity: 0.9;
+    font-size: 20px;
+    color: black; /*var(--main-text-color);*/
+    text-decoration: underline;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    margin-left: 10px;
+    
     margin-bottom: 6px;
 }
 .message .message-text {
@@ -144,6 +147,8 @@ html, body {
     display: inline;
     padding: 4px 8px;
     border-radius: 8px;
+    margin-left: 5px;
+    font-size: 15px;
 }
 
 .message-list {
@@ -186,11 +191,7 @@ html, body {
 .send-message-form input::placeholder {
     color: var(--main-text-color);
 }
-
-.help-text {
-    position: absolute;
-    top: 10px;
-}
+/*-----------------------------------------------------------------------------------------------*/
 .login-background{
     padding: 3%;
 }
