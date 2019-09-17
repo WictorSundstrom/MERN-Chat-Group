@@ -237,3 +237,10 @@ html, body {
 .nav-header {
     margin: 0 0 1vh 0;
 }
+.chatBox {
+    overflow-y: scroll;
+    max-height: 40vh;
+}
+.chat-friends {
+    margin-left: 1vh
+}
