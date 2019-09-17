@@ -1,24 +1,37 @@
 import React from 'react'
-import MessageList from './Chat-components/MessageList'
-import SendMessage from './Chat-components/SendMessage'
-import FriendsList from './Chat-components/FriendsList'
 import { Nav } from './Nav-components/Nav'
+import MessageList from './Chat-components/MessageList'
+import { FriendsList } from './Chat-components/FriendsList'
 //import Search from './Components/Chat-components/Search'
 
 
-export const Chat = (props) => {
+class Chat extends React.Component {
 
-    return(
-        <div>
-            <div className="header">
-                <Nav props={props} />
+    state = {
+        messages: []
+    }
+
+    onNewMessage(message) {
+        this.setState({
+            messages: message
+        });
+    }
+
+    render(){
+        return(
+            <div>
+                <div className="header">
+                    <Nav />
+                </div>
+                <div className="chat">
+
+                    <FriendsList />
+                    <MessageList newMessage={this.state.messages}/>
+
+                </div>
             </div>
-            <div className="chat">
-                <FriendsList />
-                <MessageList />
-                <SendMessage />
-            </div>
-        </div>
-    );
+        );
+    }
 }
 
+export default Chat
