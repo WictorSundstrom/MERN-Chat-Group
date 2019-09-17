@@ -8,6 +8,7 @@ import Chat from './Chat'
 import { Welcome } from './Welcome'
 import { Friends } from './Friends'
 import { ProtectedRoute } from './Routes/ProtectedRoute'
+
 class App extends React.Component {
 
     render () {

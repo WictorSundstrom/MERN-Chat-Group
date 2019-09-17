@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Segment, Form, List, Button } from 'semantic-ui-react'
-import { Nav } from './Nav-components/Nav'
 import { getToken } from './Auth-components/AuthHelper'
 
 export const Friends = (props) => {
@@ -144,33 +143,26 @@ export const Friends = (props) => {
     }
 
     return (
-        <div>
-            <div className="nav-header">
-                <Nav props={props}/>
-            </div>
-            <div className="friends">
-                <Segment basic textAlign='center'>
-                    <Form
-                        className="search-form"
-                        onSubmit={e => (e)}
-                    >
-                        <Form.Input
-                            className="search-input"
-                            action={{ color: 'blue', content: 'Search'}}
-                            icon='search'
-                            iconPosition='left'
-                            placeholder='Username'
-                            value={searchParam}
-                            onChange={updateField}
-                        />
-                    </Form>
-                </Segment>
-
-                <List divided verticalAlign='middle'>
-                    {allUsers(user)}
-                </List>
-
-            </div>
+        <div className="friends">
+            <Segment basic textAlign='center'>
+                <Form
+                    className="search-form"
+                    onSubmit={e => (e)}
+                >
+                    <Form.Input
+                        className="search-input"
+                        action={{ color: 'blue', content: 'Search'}}
+                        icon='search'
+                        iconPosition='left'
+                        placeholder='Username'
+                        value={searchParam}
+                        onChange={updateField}
+                    />
+                </Form>
+            </Segment>
+            <List size="large" divided verticalAlign='middle'>
+                {allUsers(user)}
+            </List>
         </div>
     )
 }

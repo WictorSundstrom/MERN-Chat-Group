@@ -1,1 +1,0 @@
-//ska visa vem man chattar med
