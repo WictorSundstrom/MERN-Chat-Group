@@ -25,9 +25,9 @@ export const Friends = (props) => {
     const searchForm = () => {
         axios({
             method: 'get',
-            url: 'http://localhost:3001/friends',
-            params: {
-                token: getToken()
+            url: 'http://localhost:3001/api/friends/:id',
+            headers: {
+                authorization: 'Bearer ' + getToken()
             }
         }).then((result) => {
             if (result && result.data) {
@@ -35,8 +35,6 @@ export const Friends = (props) => {
                 let usernameArray = result.data[0].username
                 let userArray = result.data[0].users
                 let newUserArray = []
-                let usernames = [];
-                let ids = [];
 
                 setCurrentUser({
                     id: usernameArray._id,
@@ -49,11 +47,6 @@ export const Friends = (props) => {
                         id: newUser._id,
                         username: newUser.username})
                 })
-                
-                newUserArray.forEach(user => {
-                    usernames.push(user.username);
-                    ids.push(user.id)
-                })
 
                 setUser(newUserArray)    
             }                 
@@ -63,14 +56,32 @@ export const Friends = (props) => {
     }
 
 
-    const handleFriends = (friendId, change) => {
+    const addFriend = (friendId) => {
         axios({
             method: 'post',
-            url: 'http://localhost:3001/friends',
+            url: 'http://localhost:3001/api/friends/:id',
+            headers: {
+                authorization: 'Bearer ' + getToken()
+            },
             data: {
-                user: currenctUser.id,
-                friend: friendId,
-                change: change
+                friend: friendId
+            }
+        }).then((result) => {
+            searchForm()
+        }).catch((err) => {
+            console.log(err)
+        }) 
+    }
+
+    const removeFriend = (friendId) => {
+        axios({
+            method: 'delete',
+            url: 'http://localhost:3001/api/friends/:id',
+            headers: {
+                authorization: 'Bearer ' + getToken()
+            },
+            data: {
+                friend: friendId
             }
         }).then((result) => {
             searchForm()
@@ -91,7 +102,7 @@ export const Friends = (props) => {
                     <div >
                     <Button
                         color="red"
-                        onClick={handleFriends.bind(this, item, "remove")}   
+                        onClick={removeFriend.bind(this, item)}   
                     >
                     Remove
                     </Button>  
@@ -103,7 +114,7 @@ export const Friends = (props) => {
             return (
                 <Button
                     color="green" 
-                    onClick={handleFriends.bind(this, item, "add")}
+                    onClick={addFriend.bind(this, item)}
                 >
                 Add
                 </Button>  
