@@ -1,9 +1,10 @@
 import React from 'react'
+import io from "socket.io-client";
+import axios from 'axios'
 import { Nav } from './Nav-components/Nav'
 import { Segment, Grid } from 'semantic-ui-react'
 import { FriendsList } from './Chat-components/FriendsList'
-import io from "socket.io-client";
-//import Search from './Components/Chat-components/Search'
+import { getToken } from './Auth-components/AuthHelper'
 
 
 class Chat extends React.Component {
@@ -42,7 +43,19 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-
+        axios({
+            method: 'get',
+            url: 'http://localhost:3001/api/chat/:id',
+            headers: {
+                authorization: 'Bearer ' + getToken()
+            }
+        }).then((result) => {
+            if (result && result.data) {
+                console.log(result)
+            }                 
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     render(){
