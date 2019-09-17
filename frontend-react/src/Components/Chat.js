@@ -1,16 +1,18 @@
 import React from 'react'
 import io from "socket.io-client";
 import axios from 'axios'
-import { Nav } from './Nav-components/Nav'
-import { Segment, Grid } from 'semantic-ui-react'
+import { Header, Comment, Form, Button, Grid, Icon } from 'semantic-ui-react'
 import { FriendsList } from './Chat-components/FriendsList'
 import { getToken } from './Auth-components/AuthHelper'
 
 
 class Chat extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
+
+        this.loadUsername();
+        this.chatBox = React.createRef();
 
         this.state = {
             username: '',
@@ -18,6 +20,7 @@ class Chat extends React.Component {
             messages: []
         };
 
+        
 
         this.socket = io('localhost:3001');
 
@@ -26,82 +29,132 @@ class Chat extends React.Component {
         });
 
         const addMessage = data => {
-            console.log(data);
             this.setState({messages: [...this.state.messages, data]});
-            console.log(this.state.messages);
         };
 
-        this.sendMessage = ev => {
-            ev.preventDefault();
-            this.socket.emit('SEND_MESSAGE', {
-                author: this.state.username,
-                message: this.state.message
-            })
-            this.setState({message: ''});
+        this.sendMessage = e => {
+            e.preventDefault();
 
+            axios({
+                method: 'post',
+                url: 'http://localhost:3001/api/chat',
+                headers: {
+                    authorization: 'Bearer ' + getToken()
+                },
+                data: {
+                    author: this.state.username,
+                    message: this.state.message,
+                }
+            }).then(result => {
+                if (result) {
+
+                    this.socket.emit('SEND_MESSAGE', {
+                        author: this.state.username,
+                        message: this.state.message,
+                    });
+
+                    this.setState({message: ''})
+                }
+            }).catch(err => {
+                console.log(err)
+            });
         }
     }
 
     componentDidMount() {
+        this.getChatHistory()
+    }
+    componentDidUpdate() {
+        this.mostRecentComments()
+    }
+
+   
+    loadUsername = () => {
         axios({
             method: 'get',
-            url: 'http://localhost:3001/api/chat/:id',
+            url: 'http://localhost:3001/api/user',
+            headers: {
+                authorization: 'Bearer ' + getToken()
+            } 
+        }).then(result => {
+            this.setState({ username: result.data.username})
+        })
+    }
+
+    getChatHistory() {
+        axios({
+            method: 'get',
+            url: 'http://localhost:3001/api/chat',
             headers: {
                 authorization: 'Bearer ' + getToken()
             }
         }).then((result) => {
             if (result && result.data) {
-                console.log(result)
-            }                 
+                result.data.forEach(savedMessage => {
+                    this.setState({
+                        messages: [...this.state.messages, savedMessage]
+                    })
+                })
+                this.mostRecentComments();
+            }
         }).catch((err) => {
             console.log(err)
         })
     }
 
+
+    mostRecentComments = () => {
+        this.chatBox.current.scrollTop = this.chatBox.current.scrollHeight;
+    };
+
+   
     render(){
         return (
-            <div>
-                <div className="nav-header">
-                    <Nav />
-                </div>
-
-                <Grid columns='equal'>
-                    <Grid.Column width={5}>
+            <Grid columns='equal'>
+                <Grid.Column width={5}>
+                    <br></br>
+                    <div className="chat-friends">
+                        <Header size='large'>
+                            Online Friends
+                        </Header>
+                        
                         <FriendsList />
-                    </Grid.Column>
-                    <Grid.Column width={8}>
-                        <Segment>
-                            <div className="container">
-                                <div className="row">
-                                    <div className="col-4">
-                                        <div className="card">
-                                            <div className="card-body">
-                                                <div className="card-title">Global Chat</div>
-                                                <hr/>
-                                                <div className="messages">
-                                                    {this.state.messages.map(message => {
-                                                        return (
-                                                            <div>{message.author}: {message.message}</div>
-                                                        )
-                                                        })}
-                                                </div>
-
-                                            </div>
-                                            <div className="card-footer">
-                                                <input type="text" placeholder="Username" value={this.state.username} onChange={ev => this.setState({username: ev.target.value})} className="form-control"/>
-                                                <br/>
-                                                <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})}/>
-                                                <br/>
-                                                <button onClick={this.sendMessage} className="btn btn-primary form-control">Send</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                    </div>
+                </Grid.Column>
+                <Grid.Column width={8}>
+                    <Comment.Group>
+                    <br></br>
+                        <Header as='h3' dividing>
+                            Chat
+                        </Header>
+                    
+                        <Comment>
+                            <div className="chatBox" ref={this.chatBox}>
+                                {this.state.messages.map(message => {
+                                    return (
+                                        <Comment.Content>
+                                            <Comment.Author>{message.author}</Comment.Author>
+                                            <Comment.Text>{message.message}</Comment.Text>
+                                        </Comment.Content>
+                                    )
+                                })}
                             </div>
-                        </Segment>
-                    </Grid.Column>
-                </Grid>
-            </div>
+                        </Comment>
+                    
+                        <Form reply>
+                            <Form.TextArea placeholder='Message...' className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})}/>
+                            <Button icon='edit' content='Add Reply'  labelPosition='left' primary onClick={this.sendMessage} className="btn btn-primary form-control"/>
+                        </Form>
+                    </Comment.Group>
+                </Grid.Column>
+                <Grid.Column width={3}>
+                    <br></br>
+                    <Header size='medium'>
+                    <Icon name='warning sign'/>
+                        Private chat under construction
+                    </Header>
+                </Grid.Column>
+            </Grid>
         );
     }
 }

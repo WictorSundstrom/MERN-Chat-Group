@@ -1,13 +1,11 @@
 import React from 'react'
-import { Nav } from './Nav-components/Nav'
+import { Header } from 'semantic-ui-react'
 
 export const Welcome = (props) => {
 
     return (
-        <div>
-            <div className="nav-header">
-                <Nav props={props}/>
-            </div>
-        </div>
+        <Header size='large'>
+            Welcome to our site!
+        </Header>
     )
 }
