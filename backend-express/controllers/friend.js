@@ -1,6 +1,6 @@
 const User = require('../models/user.model')
 
-const loadAllFriend = async (req, res) => {
+const getAllUsers = async (req, res) => {
 
     User.find({}).then(function(users) {
         let jsonData = [{ users: users }]
@@ -51,7 +51,7 @@ const removeFriend = async (req, res) => {
     return res.status(201).send()
 }
 
-const loadFriend = async (req, res) => {
+const getUsers = async (req, res) => {
 
     const user = req.user
     console.log(req.user)
@@ -70,9 +70,9 @@ const loadFriend = async (req, res) => {
 }   
 
 
-module.exports = { 
-    loadFriend: loadFriend,
+module.exports = {
+    getAllUsers: getAllUsers,
     addFriend: addFriend,
     removeFriend: removeFriend,
-    loadAllFriend: loadAllFriend
+    getUsers: getUsers
 }

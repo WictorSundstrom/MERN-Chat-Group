@@ -4,11 +4,11 @@ const controllers = require('../controllers/friend')
 
 router
   .route('/')
-  .get(controllers.loadAllFriend)
+  .get(controllers.getAllUsers)
 
 router
   .route('/:id')
-  .get(controllers.loadFriend)
+  .get(controllers.getFriends)
   .post(controllers.addFriend)
   .delete(controllers.removeFriend)
 

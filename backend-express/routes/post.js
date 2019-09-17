@@ -4,13 +4,20 @@ const controllers = require('../controllers/post')
 
 router
   .route('/')
-  .get(controllers.allPost)
-  .post(controllers.addPost)
+  .get(controllers.getAllPosts)
 
 router
   .route('/:id')
-  .get(controllers.getPost)
-  .put(controllers.updatePost)
-  .delete(controllers.removePost)
+  .get(controllers.getPostsFromId)
+
+router
+  .route('/:id/friends')
+  .get(controllers.getFriends)
+
+router
+  .route('/:id/friends/:friendId')
+  .get(controllers.getAllPostsBetweenUsers)
+  .post(controllers.removePostBetweenUsers)
+  .delete(controllers.removePostBetweenUsers)
 
   module.exports = router

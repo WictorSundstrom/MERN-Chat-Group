@@ -1,37 +1,44 @@
 const Post = require('../models/post.model')
 
 
-const allPost = (req, res) => {
+const getAllPosts = (req, res) => {
     res.status(200).json({ data: 'adding book.....' })
 }
 
-const addPost = (req, res) => {
+const getPostsFromId = (req, res) => {
 
 
    
     res.status(200).json({ data: 'adding book.....' })
 }
 
-const getPost = (req, res) => {
+const getPostsFromId = (req, res) => {
+
+
+   
+    res.status(200).json({ data: 'adding book.....' })
+}
+
+const getAllPostsBetweenUsers = (req, res) => {
 
 
 
     res.status(200).json({ data: 'adding book.....' })
 }
 
-const updatePost = (req, res) => {
+const addPostBetweenUsers = (req, res) => {
     res.status(200).json({ data: 'updating book.....' })
 }
 
-const removePost = (req, res) => {
+const removePostBetweenUsers = (req, res) => {
     res.status(200).json({ data: 'removing book.....' })
 }
 
 
 module.exports = { 
-    allPost: allPost,
-    addPost: addPost,
-    getPost: getPost,
-    updatePost: updatePost,
-    removePost: removePost
+    getAllPosts: getAllPosts,
+    getPostsFromId: getPostsFromId,
+    getAllPostsBetweenUsers: getAllPostsBetweenUsers,
+    addPostBetweenUsers: addPostBetweenUsers,
+    removePostBetweenUsers: removePostBetweenUsers
 }
