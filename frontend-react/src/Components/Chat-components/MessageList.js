@@ -1,6 +1,6 @@
 import React from 'react'
+import SendMessage from './SendMessage'
 
-//dummy datat for the message list
 const DUMMY_DATA = [
     {
         senderId: 'Jörgen',
@@ -16,26 +16,28 @@ const DUMMY_DATA = [
     }
 ]
 
-class MessageList extends React.Component {
-    render(){
+function MessageList (props) {
+    
         return(
-            <div className="message-list">
-                {/*we take dummy data and map it in a arrow function
-                message: is the data
-                index: is the key */}
-                {DUMMY_DATA.map((message, index) => { 
+            
+                DUMMY_DATA.map((message, index) => { 
                     return(
-                        <div key={index} className="message">
+                        <div className="message">
                             {/* message wich is the dummy data text and senderId the user.
-                                message(what do we want to get).senderId(where do we get it)*/}
+                            message(what do we want to get).senderId(where do we get it)*/}
                             <div className="message-username">{message.senderId}</div> 
                             <div className="message-text">{message.text}</div>
                         </div>
                     )
-                })}
-            </div>
+                })
+            
         );
     }
-}
+
 
 export default MessageList
+
+
+
+
+
