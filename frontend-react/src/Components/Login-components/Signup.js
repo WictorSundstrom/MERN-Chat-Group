@@ -46,8 +46,7 @@ const handleFormSubmit = (e) => {
         if (result && result.data && result.data.signedJWT) {
             console.log("Register successful")
             props.history.replace({
-                pathname : '/login',
-                state : {redirected : true }
+                pathname : '/login'
             });
         }
     }).catch((err) => {

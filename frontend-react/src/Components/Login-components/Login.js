@@ -41,8 +41,7 @@ const handleFormSubmit = (e) => {
             setToken(result.data.signedJWT)
             console.log(props)
             props.history.replace({
-                pathname : '/Welcome',
-                state : {redirected : true }
+                pathname : '/Welcome'
             });
         }
     }).catch((err) => {
