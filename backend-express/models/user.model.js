@@ -21,15 +21,9 @@ const userSchema = new mongoose.Schema(
             type: String,
             require: true
         },
-        friends: [ { 
-            username : {
-                    type: mongoose.Schema.Types.ObjectId, 
-                    ref: 'username'
-            },
-            status : {
-               type: String
-            } 
-        }]         
+        friends: [{
+            type: String
+        }],       
     },
     {
         timestamp: true

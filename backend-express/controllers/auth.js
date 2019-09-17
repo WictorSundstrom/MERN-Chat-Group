@@ -16,7 +16,7 @@ const verifyJWT = token =>
     })
 })
 
-const checkUsername = async token => {
+const checkUsername = async (token, res) => {
     try {
         payload = await verifyJWT(token)
     } catch (e) {
@@ -135,7 +135,7 @@ const isAuthorized = async (req, res, next) => {
 }
 
 const loadFriends = async (req, res) => {
-    
+
     payload = await checkUsername(req.query.token)
 
     const user = await User.findById(payload.id).exec()
@@ -144,7 +144,7 @@ const loadFriends = async (req, res) => {
         console.log('user error')
         return res.status(500).end()
     }
-    console.log(user)
+
     User.find({ _id: { $ne: user }}).then(function(users) {
         let jsonData = [{
             users: users,
@@ -156,8 +156,45 @@ const loadFriends = async (req, res) => {
 
 const updateFriends = async (req, res) => {
 
-    return res.status(201).send({ signedJWT })
+    if(req.body.change === 'add') {
+        try {
+          let promise1 = User.findOneAndUpdate(
+            { "_id": req.body.user },
+            { "$push": { "friends": req.body.friend } }
+          );
+      
+          let promise2 = User.findOneAndUpdate(
+            { "_id": req.body.friend },
+            { "$push": { "friends": req.body.user } }
+          );
+      
+        await Promise.all([promise1, promise2,])
+            
+        } catch(err) {
+           console.log(err)
+        }
+    }
 
+    else {
+        try {
+          let promise1 = User.findOneAndUpdate(
+            { "_id": req.body.user },
+            { "$pull": { "friends": req.body.friend } }
+          );
+      
+          let promise2 = User.findOneAndUpdate(
+            { "_id": req.body.friend },
+            { "$pull": { "friends": req.body.user } }
+          );
+      
+        await Promise.all([promise1, promise2,])
+
+        } catch(err) {
+           console.log(err)
+        }
+    }
+    
+    return res.status(201).send()
 }   
 
 
