@@ -145,7 +145,7 @@ export const Friends = (props) => {
 
     return (
         <div>
-            <div className="header">
+            <div className="nav-header">
                 <Nav props={props}/>
             </div>
             <div className="friends">
