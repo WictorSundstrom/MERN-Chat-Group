@@ -8,17 +8,6 @@ import io from "socket.io-client";
 
 class Chat extends React.Component {
 
-    state = {
-        messages: []
-    }
-
-    onNewMessage(message) {
-        this.setState({
-            messages: message
-        });
-    }
-
-
     constructor(props){
         super(props);
 
