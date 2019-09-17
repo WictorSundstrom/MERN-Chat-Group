@@ -1,5 +1,7 @@
+// Import user as we modify it
 const User = require('../models/user.model')
 
+// get all users in the database
 const getAllUsers = async (req, res) => {
 
     User.find({}).then(function(users) {
@@ -8,7 +10,10 @@ const getAllUsers = async (req, res) => {
     })
 }   
 
+// add a friend, find the ip och the person adding and updating it and the other persons friends with the ID of eachother
 const addFriend = async (req, res) => {
+    
+    // tries to find and update
     try {
         let promise1 = User.findOneAndUpdate(
           { "_id": req.user },
@@ -19,9 +24,9 @@ const addFriend = async (req, res) => {
           { "_id": req.body.friend },
           { "$push": { "friends": req.body.user } }
         );
-    
+    // tells the program that there are things that wants to be done, this to enhance the responsiveness of the site
         await Promise.all([promise1, promise2,])
-
+    // If error occures, log it
     } catch(err) {
         console.log(err)
     }
@@ -29,6 +34,7 @@ const addFriend = async (req, res) => {
     return res.status(201).send()
 }
 
+// remove a friend, find the ip och the person removing by the ID of eachother
 const removeFriend = async (req, res) => {
 
     try {
@@ -51,10 +57,11 @@ const removeFriend = async (req, res) => {
     return res.status(201).send()
 }
 
-const getUsers = async (req, res) => {
+// load friends of the ID requesting it, excluding himself
+const getFriends = async (req, res) => {
 
     const user = req.user
-    console.log(req.user)
+    
     if (!user) {
         console.log('user error')
         return res.status(500).end()
@@ -74,5 +81,5 @@ module.exports = {
     getAllUsers: getAllUsers,
     addFriend: addFriend,
     removeFriend: removeFriend,
-    getUsers: getUsers
+    getFriends: getFriends
 }
