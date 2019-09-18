@@ -24,9 +24,11 @@ const addFriend = async (req, res) => {
           { "_id": req.body.friend },
           { "$push": { "friends": req.body.user } }
         );
-    // tells the program that there are things that wants to be done, this to enhance the responsiveness of the site
+        
+        // tells the program that there are things that wants to be done, this to enhance the responsiveness of the site
         await Promise.all([promise1, promise2,])
-    // If error occures, log it
+     
+        // If error occures, log it
     } catch(err) {
         console.log(err)
     }

@@ -2,6 +2,7 @@
 import React from 'react';
 import { Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+
 // Import lokala komponenter
 import { Logout } from '../Service/Logout'
 
@@ -10,6 +11,7 @@ export const Nav = (props) => {
     return (
         // Semantic UI kod för att göra en menu med deras css
         <Menu pointing>
+            
             {/* Första valet på nav bar */}
             {/* Innehåller Link från react-router-dom som gör att om den klickas på så kommer du att skickas till det som är 
             definerat i to= (i detta fallet, root) */}

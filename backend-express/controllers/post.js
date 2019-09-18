@@ -3,6 +3,7 @@ const Messages = require('../models/post.model').Messages
 
 // Addmessage
 const addPosts = (req, res) => {
+    
     // Creates a new Message with Author och Message
     Messages.create({
         author: req.user.username,

@@ -1,8 +1,10 @@
 // Import NPM packages
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+
 // Import Semantic UI för enklare CSS
 import { Segment, Form, List, Button } from 'semantic-ui-react'
+
 // Import lokala komponenter
 import { getToken } from '../Auth-components/Auth'
 
@@ -38,11 +40,13 @@ export const Friends = (props) => {
             }
         }).then((result) => {
             if (result && result.data) {
+               
                 // Får den tillbaka resultat så vill vi få ut Aktiva användaren (username)
                 // Och alla användare (users)
                 let usernameArray = result.data[0].username
                 let userArray = result.data[0].users
                 let newUserArray = []
+                
                 // Sätter den aktiva användaren till state
                 setCurrentUser({
                     id: usernameArray._id,
@@ -64,7 +68,7 @@ export const Friends = (props) => {
         })
     }
 
-    // När man klickar på add firend, skicka vänens ID och din token. (Detta för att back-enden ska kunna matcha ihop er)
+    // När man klickar på add friend, skicka vännens ID och din token. (Detta för att back-enden ska kunna matcha ihop er)
     const addFriend = (friendId) => {
         axios({
             method: 'post',
@@ -84,7 +88,7 @@ export const Friends = (props) => {
         }) 
     }
 
-    // När man klickar på remove firend, skicka vänens ID och din token. (Detta för att back-enden ska kunna matcha er och ta bort)   
+    // När man klickar på remove friend, skicka vännens ID och din token. (Detta för att back-enden ska kunna matcha er och ta bort)   
     const removeFriend = (friendId) => {
         axios({
             method: 'delete',
@@ -106,7 +110,7 @@ export const Friends = (props) => {
     const updateField = e => {
         setSearchParam(e.target.value);
     }
-    // Om currentFriend har dig sparad ska en röd knapp med remove renders ut
+    // Om currentFriend har dig sparad ska en röd knapp med remove renderas ut
     // Annars Add
     const renderButtons = (item) => {
 
@@ -135,6 +139,7 @@ export const Friends = (props) => {
             )
         }
     }
+    
     // Gör en lista av varje person items
     const allUsers = (items) => {
         return (

@@ -1,6 +1,7 @@
 // Import npm packcages
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+
 // Import local components
 import { Home } from './Start-components/Home'
 import { Login } from './Login-components/Login'
@@ -10,15 +11,17 @@ import { Friends } from './Friends-components/Friends'
 import Chat from './Chat-components/Chat'
 import { ProtectedRoute } from './Routes/ProtectedRoute'
 
-// Class component
+// Class component App
+//renderar ut hela applikationen genom komponenter
 class App extends React.Component {
 
     render () {
         return (
-            // Declares different paths in the site
             
+            // Declares different paths in the site
             <Router>
                 <Switch>
+                    
                     {/*Normal path that everyone has access to */}
                     <Route exact path="/" component={ Home } />
                     <Route path="/login" component={ Login } />
@@ -28,6 +31,7 @@ class App extends React.Component {
                     <ProtectedRoute path="/welcome" component={ Welcome } />
                     <ProtectedRoute path="/friends" component={ Friends } />
                     <ProtectedRoute path="/chat" component={ Chat } />
+                    
                     {/* If anything other than the above is not triggered, redirect to / (root) */}
                     <Route render={() => <Redirect to="/" />} />
                 </Switch>

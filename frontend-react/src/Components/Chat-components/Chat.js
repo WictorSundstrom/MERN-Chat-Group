@@ -2,8 +2,10 @@
 import React from 'react'
 import io from "socket.io-client";
 import axios from 'axios'
+
 // Import Semantic UI för enklare Css
 import { Header, Comment, Form, Button, Grid, Icon } from 'semantic-ui-react'
+
 // Import lokala komponenter
 import { FriendsList } from './FriendsList'
 import { getToken } from '../Auth-components/Auth'
@@ -11,6 +13,7 @@ import { getToken } from '../Auth-components/Auth'
 // klass komponent
 class Chat extends React.Component {
 
+    // constructor som sköter states
     constructor(props) {
         super(props);
 
@@ -19,6 +22,7 @@ class Chat extends React.Component {
         // Skapar en ref för att kunna komma längst ner till senaste meddelandena
         this.chatBox = React.createRef();
 
+        //användares state i chat
         this.state = {
             username: '',
             message: '',
@@ -28,10 +32,12 @@ class Chat extends React.Component {
         
         // Kopplar till socket.io
         this.socket = io('localhost:3001');
+        
         // Skickar tillbaka information från back-end med informationen som kommer tillbaka.
         this.socket.on('RECEIVE_MESSAGE', function(data){
             addMessage(data);
         });
+        
         // Lägger till meddelandet med datan som kom från server. (meddelande + vem som skrev det)
         const addMessage = data => {
             this.setState({messages: [...this.state.messages, data]});
@@ -41,10 +47,12 @@ class Chat extends React.Component {
         this.sendMessage = e => {
             e.preventDefault();
 
+            // axios använder http request för att fetcha eller spara data.
+            // här 'post' man medelanden från användare
             axios({
                 method: 'post',
                 url: 'http://localhost:3001/api/chat',
-                headers: {
+                headers: { 
                     authorization: 'Bearer ' + getToken()
                 },
                 data: {
@@ -54,6 +62,7 @@ class Chat extends React.Component {
             }).then(result => {
                 if (result) {
 
+                    //skickar medelandet med användarnamn och medelande
                     this.socket.emit('SEND_MESSAGE', {
                         author: this.state.username,
                         message: this.state.message,
@@ -78,6 +87,7 @@ class Chat extends React.Component {
 
     // Ladda in användarnamn via token 
     loadUsername = () => {
+        //här hämtar axios data från användare genom user api och token
         axios({
             method: 'get',
             url: 'http://localhost:3001/api/user',
@@ -111,12 +121,12 @@ class Chat extends React.Component {
         })
     }
 
-    // Gå längst ner av chat rutan varje gång.
+    // Går längst ner i chat rutan varje gång den körs
     mostRecentComments = () => {
         this.chatBox.current.scrollTop = this.chatBox.current.scrollHeight;
     };
 
-   
+   //renderar ut alla chat components etc
     render(){
         return (
             <Grid columns='equal'>

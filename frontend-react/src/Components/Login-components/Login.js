@@ -2,14 +2,17 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+
 // Import Semantic UI för enklare CSS
 import { Button, Form, Message, Segment } from 'semantic-ui-react'
+
 // Import lokala komponenter
 import { setToken } from '../Auth-components/Auth';
 
 // Funktionell komponent
 export const Login = (props) => {
-  // eftersom du inte får göra state i en funktionell så används useState för att ta dess plats
+
+// eftersom du inte får göra state i en funktionell så används useState för att ta dess plats
 const [user, setUser] = useState({
     username : "",
     password : "",
@@ -26,6 +29,7 @@ const [passError, setPassError] = useState ({
     msgError : false,
     msg : []
 })
+
 // När forumet submitas så skickar den användarnamn och lösenord till back-end
 const handleFormSubmit = (e) => {
     e.preventDefault()
@@ -41,32 +45,41 @@ const handleFormSubmit = (e) => {
     }).then((result) => {
         if (result && result.data && result.data.signedJWT) {
             console.log("Log in successful")
+            
             // Sätter sessionStorage till den JWT jag fick tillbaka
             setToken(result.data.signedJWT)
+            
             console.log(props)
+            
             // Skickar användaren till /Welcome sidan
             props.history.replace({
                 pathname : '/Welcome'
             });
         }
     }).catch((err) => {
+        
         // Vid fel
         let userErrorArray = []
         let passErrorArray = []
+        
         // Kolla vad felet innehåller och spara i rätt array.
         err.response.data.errors.forEach(errors => {
 
+            //om användare är fel
             if(errors.param === 'username') {
                 userErrorArray.push(errors.msg)
             }
+            //om lösenord är fel
             else if(errors.param === 'password') {
                 passErrorArray.push(errors.msg)
             }
+            
             else if(errors.param === 'userpass') {
                 userErrorArray.push(errors.msg)
                 passErrorArray.push(errors.msg)
             }
         })
+        
         // Om Arrayen har fel så ska den ändra booleans till true och visa vilket fel
         if(userErrorArray.length > 0) {
             setUserError({
@@ -110,7 +123,8 @@ const updateField = e => {
         [e.target.name]: e.target.value
     });
 };
-// Loopar igenom alla felen och skriver du de
+
+// Loopar igenom alla felen och skriver ut det
 const userMessages = userError.msg.map((d) => <Message.List key={d}>{d}</Message.List>);
 const passMessages = passError.msg.map((d) => <Message.List key={d}>{d}</Message.List>);
 

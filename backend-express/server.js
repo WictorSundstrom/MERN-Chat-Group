@@ -5,15 +5,18 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const envVars = require('dotenv').config()
 const socket = require('socket.io');
+
 // imports Home-made
 const signup = require('./controllers/auth').signup
 const login = require('./controllers/auth').login
 const logout = require('./controllers/auth').logout
 const isAuthorized = require('./controllers/auth').isAuthorized
 const getUsername = require('./controllers/auth').getUsername
+
 // Validators
 const validateSignup = require('./validator/validator').validateSignup;
 const validateLogin = require('./validator/validator').validateLogin;
+
 // Routes
 const userRouter = require('./routes/user')
 const friendRouter = require('./routes/friend')

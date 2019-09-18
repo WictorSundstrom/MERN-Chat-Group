@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+
 // Import lokala komponenter
 import { Button, Form, Message, Segment } from 'semantic-ui-react'
 
@@ -143,7 +144,7 @@ const updateField = e => {
     });
 };
 
-// Loopar igenom alla felen och skriver du de
+// Loopar igenom alla felen och skriver ut det
 const userMessages = userError.msg.map((d) => <Message.List key={d}>{d}</Message.List>);
 const passMessages = passError.msg.map((d) => <Message.List key={d}>{d}</Message.List>);
 const passConfirmMessages = passConfirmationError.msg.map((d) => <Message.List key={d}>{d}</Message.List>);

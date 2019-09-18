@@ -1,5 +1,6 @@
 // Import NPM packages
 import React from 'react'
+
 // Import Semantic UI for easier css
 import { Header } from 'semantic-ui-react'
 

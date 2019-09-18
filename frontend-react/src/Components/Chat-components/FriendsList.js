@@ -1,8 +1,10 @@
 // Import NPM package
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+
 // Import Semantic UI för enklare css
 import { List } from 'semantic-ui-react'
+
 // Import lokal komponents
 import { getToken } from '../Auth-components/Auth'
 
@@ -31,6 +33,7 @@ export const FriendsList = (props) => {
                 let usernameArray = result.data[0].username
                 let userArray = result.data[0].users
                 let newUserArray = []
+                
                 // Loopar igenom alla användare och sedan loopar den för att kolla om Aktiva användaren är vän med honom
                 // och sedan kollar om han är Online, är han online. Spara han i en array
                 userArray.forEach(newUser => {
