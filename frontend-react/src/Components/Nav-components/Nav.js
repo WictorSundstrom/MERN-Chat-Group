@@ -1,99 +1,41 @@
-import React, { useState } from 'react';
+// Import NPM packages
+import React from 'react';
 import { Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-
-import axios from 'axios'
-import { logout, getToken } from '../Auth-components/AuthHelper'
+// Import lokala komponenter
+import { Logout } from '../Service/Logout'
 
 export const Nav = (props) => {
-    
-    const [activeItem, setActiveItem] = useState('')
-    
-    const logoutAxios = (e) => {
-
-        axios({
-            method: 'post',
-            url: 'http://localhost:3001/logout',
-            data: {
-                token: getToken()
-            }
-        }).then((result) => {
-            if (result) {
-                props.props.history.replace({
-                    pathname : '/login'
-                })
-                logout()
-                console.log('Log out succesful')
-            }
-        }).catch((err) => {
-            if(err) {
-                console.log("Log out error")
-            }
-        })
-    }
 
     return (
+        // Semantic UI kod för att göra en menu med deras css
         <Menu pointing>
+            {/* Första valet på nav bar */}
+            {/* Innehåller Link från react-router-dom som gör att om den klickas på så kommer du att skickas till det som är 
+            definerat i to= (i detta fallet, root) */}
             <Menu.Item as={ Link }
                 name='home'
                 to=''
-                active={activeItem === 'home'}
-                onClick={e => setActiveItem(e.target.name)}
             />
-           
-            <Menu.Item as={ Link }
-                name='chat'
-                to='chat'
-                active={activeItem === 'chat'}
-                onClick={e => setActiveItem(e.target.name)}
-            />
-
 
             <Menu.Item as={ Link }
                 name='friends'
                 to='friends'
-                active={activeItem === 'friends'}
-                onClick={e => setActiveItem(e.target.name)}
             />
 
+            <Menu.Item as={ Link }
+                name='chat'
+                to='chat'
+            />
+
+            {/* Samma som första men Semantic UI kod för att få den att hamna på höger sidan */}
             <Menu.Menu position='right'>
                 <Menu.Item
                     name='logout'
-                    onClick={e => logoutAxios(e)}
-                />
+                    // On cick, Triggrar logout och skickar med props för att kunna omdirigera användaren där i
+                    onClick={e => Logout(props)}
+            />
         </Menu.Menu>
     </Menu>
     )
 }
-            /*  Fungerar!
-
-                import Paper from '@material-ui/core/Paper';
-                import Tabs from '@material-ui/core/Tabs';
-                import Tab from '@material-ui/core/Tab';
-
-                import { getToken } from "./AuthHelper"
-
-
-                <Paper>
-            <Tabs
-                value={selectedCat}
-                onChange={(event, index) =>
-                {
-                    if(index === 2 && getToken() === null) {
-                        index = 1
-                    }
-                    
-                    onSelect(index)
-                }}
-                indicatorColor="primary"
-                textColor="primary"
-                centered
-            >
-               <Tab label="Home" component={Link} to="/" />
-               <Tab label="Login" component={Link} to="/login" />
-               <Tab label="Chat" component={Link} to="/chat" />  
-
-               
-            </Tabs>
-        </Paper>
-            */

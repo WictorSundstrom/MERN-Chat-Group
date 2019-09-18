@@ -2,8 +2,8 @@ import React from 'react'
 import io from "socket.io-client";
 import axios from 'axios'
 import { Header, Comment, Form, Button, Grid, Icon } from 'semantic-ui-react'
-import { FriendsList } from './Chat-components/FriendsList'
-import { getToken } from './Auth-components/AuthHelper'
+import { FriendsList } from './FriendsList'
+import { getToken } from '../Auth-components/Auth'
 
 
 class Chat extends React.Component {

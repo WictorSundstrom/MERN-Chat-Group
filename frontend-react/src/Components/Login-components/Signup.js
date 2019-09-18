@@ -1,11 +1,14 @@
+// Import NPM packages
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Button, Form, Message, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+// Import lokala komponenter
+import { Button, Form, Message, Segment } from 'semantic-ui-react'
 
+// Funktionell komponent
 export const Signup = (props) => {
 
-  
+// eftersom du inte får göra state i en funktionell så används useState för att ta dess plats
 const [user, setUser] = useState({
     username : "",
     password : "",
@@ -30,7 +33,7 @@ const [passConfirmationError, setPassConfirmationError] = useState ({
     msg : []
 })
 
-
+// När forumet submitas så skickar den användarnamn och lösenord till back-end
 const handleFormSubmit = (e) => {
     e.preventDefault()
 
@@ -42,18 +45,22 @@ const handleFormSubmit = (e) => {
             password: user.password,
             passwordConfirmation: user.passwordConfirmation
         }
+        // Kollar resultatet från back-end, Kollar om den har data och en JWT i sig.
     }).then((result) => {
         if (result && result.data && result.data.signedJWT) {
             console.log("Register successful")
+            // Skickar användaren till /login sidan
             props.history.replace({
                 pathname : '/login'
             });
         }
     }).catch((err) => {
+        // Vid fel
         let userErrorArray = []
         let passErrorArray = []
         let passConfirmationErrorArray = []
 
+        // Kolla vad felet innehåller och spara i rätt array.
         err.response.data.errors.forEach(errors => {
 
             if(errors.param === 'username') {
@@ -75,6 +82,7 @@ const handleFormSubmit = (e) => {
             }
         })
 
+        // Om Arrayen har fel så ska den ändra booleans till true och visa vilket fel
         if(userErrorArray.length > 0) {
             setUserError({
                 inputError : true,
@@ -82,6 +90,9 @@ const handleFormSubmit = (e) => {
                 msg : [...userErrorArray]
             }) 
         }
+        // Annars false och fel visas inte 
+        // (För att om du t.ex. skriver för kort användarnamn 
+        // och sedan skickar igen med en okej så ska den inte fortsätta visa fel
         else {
             setUserError({
                 inputError : false,
@@ -124,6 +135,7 @@ const handleFormSubmit = (e) => {
 
 }
 
+// Uppdaterar State user på variabelen som har namnet som aktiverade updateringen och sedan uppdaterar värdet med värdet som skrivs in.
 const updateField = e => {
     setUser({
       ...user,
@@ -131,6 +143,7 @@ const updateField = e => {
     });
 };
 
+// Loopar igenom alla felen och skriver du de
 const userMessages = userError.msg.map((d) => <Message.List key={d}>{d}</Message.List>);
 const passMessages = passError.msg.map((d) => <Message.List key={d}>{d}</Message.List>);
 const passConfirmMessages = passConfirmationError.msg.map((d) => <Message.List key={d}>{d}</Message.List>);

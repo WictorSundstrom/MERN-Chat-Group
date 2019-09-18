@@ -144,6 +144,9 @@ const isAuthorized = async (req, res, next) => {
     // Gör att req.user är användaren, så man kan återanvända detta i andra delar om man har kommit förbi authorization
     req.user = user
     next()
+
+    // !!!!! ATT FIXA !!!!!
+    // Kontrollera att användaren inte är inloggad redan-
 }
 
 module.exports = {

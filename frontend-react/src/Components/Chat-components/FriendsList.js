@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { List } from 'semantic-ui-react'
-import { getToken } from '../Auth-components/AuthHelper'
+import { getToken } from '../Auth-components/Auth'
 
 export const FriendsList = (props) => {
     const [user, setUser] = useState([])

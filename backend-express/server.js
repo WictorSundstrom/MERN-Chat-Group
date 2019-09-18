@@ -19,19 +19,19 @@ const userRouter = require('./routes/user')
 const friendRouter = require('./routes/friend')
 const postRouter = require('./routes/post')
 
-// Declare app to be express
+// Deklarerar App till att betyda epxress servern
 const app = express()
  
-// Checking if needed JWT file exists
+// Kollar om en fil som måste finnas för JWT finns
 if (envVars.error) {
     console.log('.env Error')
 }
-// Adding middleware needed for server
+// Lägger till middleware för servern
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
-// Connect to mongoose / mongodb
+// Ansluter till mongoose / databasen (mongodb)
 mongoose.connect('mongodb://localhost/testbase1000', {useNewUrlParser: true, useCreateIndex: true})
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error'))
 
@@ -55,8 +55,14 @@ server = app.listen(3001, function() {
 // Socket IO
 io = socket(server);
 
+// När någon går in på Socket.io (I detta fall chatten, ge han en socket id)
 io.on('connection', (socket) => {
+    // När någon skickar ett meddelande, skicka det vidare till servern
     socket.on('SEND_MESSAGE', (data) => {
+        // När servern får ett meddelande skicka tillbaka den till en global chat
         io.emit('RECEIVE_MESSAGE', data);
+
+        // För framtida behov, Kolla emits för privata meddelanden
+        // https://dev.to/moz5691/socketio-for-simple-chatting---1k8n
     })
 });
