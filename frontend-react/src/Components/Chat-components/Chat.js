@@ -1,17 +1,22 @@
+// Import NPM package
 import React from 'react'
 import io from "socket.io-client";
 import axios from 'axios'
+// Import Semantic UI för enklare Css
 import { Header, Comment, Form, Button, Grid, Icon } from 'semantic-ui-react'
+// Import lokala komponenter
 import { FriendsList } from './FriendsList'
 import { getToken } from '../Auth-components/Auth'
 
-
+// klass komponent
 class Chat extends React.Component {
 
     constructor(props) {
         super(props);
 
+        // Laddar in användarnamnet från personen via deras token
         this.loadUsername();
+        // Skapar en ref för att kunna komma längst ner till senaste meddelandena
         this.chatBox = React.createRef();
 
         this.state = {
@@ -21,17 +26,18 @@ class Chat extends React.Component {
         };
 
         
-
+        // Kopplar till socket.io
         this.socket = io('localhost:3001');
-
+        // Skickar tillbaka information från back-end med informationen som kommer tillbaka.
         this.socket.on('RECEIVE_MESSAGE', function(data){
             addMessage(data);
         });
-
+        // Lägger till meddelandet med datan som kom från server. (meddelande + vem som skrev det)
         const addMessage = data => {
             this.setState({messages: [...this.state.messages, data]});
         };
 
+        // Sparar meddelanden ner i databasen
         this.sendMessage = e => {
             e.preventDefault();
 
@@ -61,14 +67,16 @@ class Chat extends React.Component {
         }
     }
 
+    // När chat renderas om så ladda in alla meddelanden i databasen
     componentDidMount() {
         this.getChatHistory()
     }
+    // När chat uppdateras så starta mostRecentComments
     componentDidUpdate() {
         this.mostRecentComments()
     }
 
-   
+    // Ladda in användarnamn via token 
     loadUsername = () => {
         axios({
             method: 'get',
@@ -81,6 +89,7 @@ class Chat extends React.Component {
         })
     }
 
+    // Hämta tidigare meddelanden från databasen
     getChatHistory() {
         axios({
             method: 'get',
@@ -102,7 +111,7 @@ class Chat extends React.Component {
         })
     }
 
-
+    // Gå längst ner av chat rutan varje gång.
     mostRecentComments = () => {
         this.chatBox.current.scrollTop = this.chatBox.current.scrollHeight;
     };
