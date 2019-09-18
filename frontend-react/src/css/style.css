@@ -1,0 +1,119 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+    background-image: url(../img/background.jpg);
+    background-size: cover;
+ 
+}
+.login-background{
+    padding: 3%;
+}
+.signup-background{
+    padding: 3%;
+}
+
+#login-segment {
+    width: 45vw;
+    margin: 0 auto;
+}
+#login-top {
+    width: 45vw;
+    margin: 0 auto;
+}
+#login-bottom {
+    width: 45vw;
+    margin: 0 auto;
+}
+#signup-segment {
+    width: 45vw;
+    margin: 0 auto;
+}
+#signup-top {
+    width: 45vw;
+    margin: 0 auto;
+}
+#signup-bottom {
+    width: 45vw;
+    margin: 0 auto;
+}
+.search-form {
+    margin: 0 auto;
+    padding: 0;
+    width: 45vw;
+}
+.nav-header {
+    margin: 0 0 1vh 0;
+}
+.chatBox {
+    overflow-y: scroll;
+    max-height: 60vh;
+}
+.chat-friends {
+    margin-left: 1vh
+}
+
+
+
+@media only screen and (min-width: 768px) {
+
+    #login-segment {
+        width: 35vw;
+    }
+    #login-top {
+        width: 35vw;
+    }
+    #login-bottom {
+        width: 35vw;
+    }
+    #signup-segment {
+        width: 35vw;
+    }
+    #signup-top {
+        width: 35vw;
+    }
+    #signup-bottom {
+        width: 35vw;
+    }
+    .search-form {
+        width: 35vw;
+    }
+    .chatBox {
+        max-height: 50vh;
+    }
+
+}
+
+
+@media only screen and (min-width: 1124) {
+
+    #login-segment {
+        width: 25vw;
+    }
+    #login-top {
+        width: 25vw;
+    }
+    #login-bottom {
+        width: 25vw;
+    }
+    #signup-segment {
+        width: 25vw;
+    }
+    #signup-top {
+        width: 25vw;
+    }
+    #signup-bottom {
+        width: 25vw;
+    }
+    .search-form {
+        width: 25vw;
+    }
+    .chatBox {
+        max-height: 50vh;
+    }
+}
